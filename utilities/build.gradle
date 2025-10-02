@@ -8,4 +8,5 @@ plugins {
 
 dependencies {
     api project(':list')
+    implementation 'org.xerial:sqlite-jdbc:3.43.0.0'
 }
