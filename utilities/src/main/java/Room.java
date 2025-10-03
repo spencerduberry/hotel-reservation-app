@@ -1,4 +1,7 @@
-import java.util.*;
+package utilities.src.main.java;
+
+import java.util.Map;
+import java.util.Scanner;
 
 public class Room {
 
@@ -23,6 +26,23 @@ public class Room {
 		this.rate = rateIn;
 	}
 		
+	public static Room addRoom()
+	{
+		try (Scanner sc = new Scanner(System.in)) {
+			String roomName = sc.nextLine();
+			String roomDescription = sc.nextLine();
+			int minimumRoomNumber = sc.nextInt();
+			int maximumRoomNumber = sc.nextInt();
+			int capacity = sc.nextInt();
+			int numAvailable = sc.nextInt();
+			String bedType = sc.nextLine();
+			int rate = sc.nextInt();
+			Room newRoom = new Room(roomName, roomDescription, minimumRoomNumber, maximumRoomNumber, bedType, capacity, numAvailable, rate);
+
+			return newRoom;
+		}
+	}
+
 	public int getMinRoomNumber()
 	{
 		return minRoomNumber;

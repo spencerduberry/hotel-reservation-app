@@ -1,10 +1,21 @@
-import java.util.*;
+package app.src.main.java;
+
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.TreeSet;
+
+import utilities.src.main.java.Booking;
+import utilities.src.main.java.InMemoryRoomTypeRespository;
+import utilities.src.main.java.Room;
 
 
 public class Tester {
 	private static Map<String, Room> roomMap = new HashMap<>();
 	private static TreeSet<Booking> bookingTree = new TreeSet<>(new LastNameComparator());
-	
+	private static InMemoryRoomTypeRespository testRepo = new InMemoryRoomTypeRespository();
+
 	public static void main (String[] args)
 	{
 		roomMap.put("standardtwin", new Room ("Standard (Twin)", "Comfortable and budget friendly "
@@ -36,7 +47,8 @@ public class Tester {
 			System.out.println ("3: Generate revenue report");
 			System.out.println ("4: Sort reservations");
 			System.out.println ("5: Display available rooms");
-			System.out.println ("6: Close program");
+			System.out.println ("6: Add new room type");
+			System.out.println ("7: Close program");
 			
 			choice= Booking.getIntInput(sc, "Please select an operation:");
 			
@@ -57,10 +69,14 @@ public class Tester {
 			case 5:
 				Room.roomOccupancy(roomMap);	
 				break;
+			case 6:
+			    Room newRoom = Room.addRoom();
+				testRepo.addRoom(newRoom);
+
 			default:
-				if(choice!=6) System.out.println ("Unknown option");
+				if(choice!=7) System.out.println ("Unknown option");
 			}
-		} while (choice !=6);
+		} while (choice !=7);
 	}
 	
 	static class LastNameComparator implements Comparator<Booking>
