@@ -19,15 +19,15 @@ public class Tester {
 	public static void main (String[] args)
 	{
 		roomMap.put("standardtwin", new Room ("Standard (Twin)", "Comfortable and budget friendly "
-				+ "accommodation", 1, 250, "Twin", 250, 250, 1000));
+				+ "accommodation", 1, 250, "Twin", 250, 1000));
 		roomMap.put("standarddouble", new Room ("Standard (Double)", "Comfortable and budget friendly "
-				+ "accommodation", 1, 250, "Double", 250, 250, 1000));
+				+ "accommodation", 1, 250, "Double", 250, 1000));
 		roomMap.put("deluxe", new Room ("Deluxe", "Enhanced comfort and additional "
-				+ "space", 251, 500, "Queen-size", 250, 250, 1200));
+				+ "space", 251, 500, "Queen-size", 250, 1200));
 		roomMap.put("superiorking", new Room ("Superior (King)", "Luxury and premium comfort "
-				+ "services", 501, 530, "king-size", 30, 30, 1800));
+				+ "services", 501, 530, "king-size", 30, 1800));
 		roomMap.put("superiorqueen", new Room ("Superior (Queen)", "Luxury and premium comfort "
-				+ "services", 501, 530, "Queen-size", 30, 30, 1800));
+				+ "services", 501, 530, "Queen-size", 30, 1800));
 		
 		Room standardTwin = roomMap.get("standardtwin");
 		Room standardDouble = roomMap.get("standarddouble");

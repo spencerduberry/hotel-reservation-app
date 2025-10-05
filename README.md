@@ -52,7 +52,7 @@ java Tester
 ## Main classes:
 - **Tester**: The entry point for the program, where the main menu is displayed and user interactions are handled.
 - **Booking**: Handles the creation and management of customer reservations, including input validation and room assignments.
-- **Room**: Defines the properties of each room type (e.g., capacity, room number, rate) and includes methods for calculating revenue and checking room availability.
+- **Room**: Defines the properties of each room type (e.g., roomTypeTotal, room number, rate) and includes methods for calculating revenue and checking room availability.
 ### Notes
 - **Java Version**: This application is compatible with Java 5 or later. It's recommended to use Java 8 for optimal performance and features.
 - **Future Updates**: This project was initially developed in Eclipse, but it will now be maintained and developed using Visual Studio Code (VSCode).

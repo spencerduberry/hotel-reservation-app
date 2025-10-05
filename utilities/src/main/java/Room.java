@@ -9,35 +9,48 @@ public class Room {
 	int minRoomNumber;
 	int maxRoomNumber;
 	private String bedType;
-	private int capacity;
+	private int roomTypeTotal;
 	private int numberAvailable;
 	private int rate;
 	private int totalBooked = 0;
 	private Room associatedObject;
 	
-	public Room (String typeIn, String descriptionIn, int minRoomNumberIn, int maxRoomNumberIn, String bedTypeIn, int capacityIn, int numberAvailableIn, int rateIn)
+	public Room (String typeIn, String descriptionIn, int minRoomNumberIn, int maxRoomNumberIn, String bedTypeIn, int roomTypeTotalIn, int rateIn)
 	{
 		this.type = typeIn;
 		this.minRoomNumber = minRoomNumberIn;
 		this.maxRoomNumber = maxRoomNumberIn;
 		this.bedType = bedTypeIn;
-		this.capacity = capacityIn;
-		this.numberAvailable = numberAvailableIn;
+		this.roomTypeTotal = roomTypeTotalIn;
+		this.numberAvailable = roomTypeTotal;
 		this.rate = rateIn;
 	}
 		
 	public static Room addRoom()
 	{
 		try (Scanner sc = new Scanner(System.in)) {
+			System.out.println("Please enter the room type:");
 			String roomName = sc.nextLine();
+
+			System.out.println("Please enter the room description:");
 			String roomDescription = sc.nextLine();
+
+			System.out.println("Please enter the lowest room number:");
 			int minimumRoomNumber = sc.nextInt();
+
+			System.out.println("Please enter the highest room number:");
 			int maximumRoomNumber = sc.nextInt();
-			int capacity = sc.nextInt();
-			int numAvailable = sc.nextInt();
+			
+			System.out.println("What type of bed does this room have?");
 			String bedType = sc.nextLine();
+
+			System.out.println("How many rooms of this type in total in the hotel?");
+			int roomTypeTotal = sc.nextInt();
+			
+			System.out.println("Price per night:");
 			int rate = sc.nextInt();
-			Room newRoom = new Room(roomName, roomDescription, minimumRoomNumber, maximumRoomNumber, bedType, capacity, numAvailable, rate);
+
+			Room newRoom = new Room(roomName, roomDescription, minimumRoomNumber, maximumRoomNumber, bedType, roomTypeTotal, rate);
 
 			return newRoom;
 		}
@@ -87,9 +100,9 @@ public class Room {
 		return type;
 	}
 	
-	public int getCapacity()
+	public int getroomTypeTotal()
 	{
-		return capacity;
+		return roomTypeTotal;
 	}
 	
 	public int getNumberAvailable()
@@ -137,7 +150,7 @@ public class Room {
 		Room room = map.get(roomType);
 		System.out.println("Rooms Booked: " + room.getTotalBooked());
 		System.out.println("Remaining rooms: " + room.getNumberAvailable());
-		System.out.println("Total Rooms: " + room.getCapacity());
+		System.out.println("Total Rooms: " + room.getroomTypeTotal());
 		System.out.println();
 		}
 	}
