@@ -1,20 +1,16 @@
-package utilities.src.main.java;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class InMemoryRoomTypeRespository implements RoomTypeRepository{
     
     List<Room> roomTypes = new ArrayList<Room>();
 
-    public Room addRoom(Room room)
-    {
-        roomTypes.add(room);
-        System.out.println(room);
-
-        return room;
-    }
-
+    public void addRoom(Room newRoom)
+	{
+		roomTypes.add(newRoom);
+	}
+    
     public void removeRoom(int roomId)
     {
 

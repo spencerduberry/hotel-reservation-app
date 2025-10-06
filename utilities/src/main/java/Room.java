@@ -1,5 +1,3 @@
-package utilities.src.main.java;
-
 import java.util.Map;
 import java.util.Scanner;
 
@@ -25,35 +23,29 @@ public class Room {
 		this.numberAvailable = roomTypeTotal;
 		this.rate = rateIn;
 	}
-		
-	public static Room addRoom()
+
+	public static Room createRoom(Scanner sc)
 	{
-		try (Scanner sc = new Scanner(System.in)) {
-			System.out.println("Please enter the room type:");
-			String roomName = sc.nextLine();
+		System.out.println("Please enter the room type:");
+		String roomName = sc.nextLine();
 
-			System.out.println("Please enter the room description:");
-			String roomDescription = sc.nextLine();
+		System.out.println("Please enter the room description:");
+		String roomDescription = sc.nextLine();
 
-			System.out.println("Please enter the lowest room number:");
-			int minimumRoomNumber = sc.nextInt();
+		int minimumRoomNumber = Booking.getIntInput(sc, "Please enter the lowest room number:");
 
-			System.out.println("Please enter the highest room number:");
-			int maximumRoomNumber = sc.nextInt();
-			
-			System.out.println("What type of bed does this room have?");
-			String bedType = sc.nextLine();
+		int maximumRoomNumber = Booking.getIntInput(sc, "Please enter the highest room number:");
 
-			System.out.println("How many rooms of this type in total in the hotel?");
-			int roomTypeTotal = sc.nextInt();
-			
-			System.out.println("Price per night:");
-			int rate = sc.nextInt();
+		System.out.println("What type of bed does this room have?");
+		String bedType = sc.nextLine();
 
-			Room newRoom = new Room(roomName, roomDescription, minimumRoomNumber, maximumRoomNumber, bedType, roomTypeTotal, rate);
+		int roomTypeTotal = Booking.getIntInput(sc, "How many rooms of this type in total in the hotel?");
+		
+		int rate = Booking.getIntInput(sc, "Price per night:");
 
-			return newRoom;
-		}
+		Room newRoom = new Room(roomName, roomDescription, minimumRoomNumber, maximumRoomNumber, bedType, roomTypeTotal, rate);
+
+		return newRoom;
 	}
 
 	public int getMinRoomNumber()
@@ -117,9 +109,14 @@ public class Room {
 	
 	public String toString()
 	{
-		return type + "\n Bed Type: " +
-				bedType;
-	}
+    return "Room {" +
+            "type='" + type + '\'' +
+            ", minRoomNumber=" + minRoomNumber +
+            ", maxRoomNumber=" + maxRoomNumber +
+            ", bedType='" + bedType + '\'' +
+            ", rate=" + rate +
+            '}';
+}
 	
 	public static void revenueReport(Map<String, Room> map)
 	{

@@ -1,14 +1,8 @@
-package app.src.main.java;
-
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeSet;
-
-import utilities.src.main.java.Booking;
-import utilities.src.main.java.InMemoryRoomTypeRespository;
-import utilities.src.main.java.Room;
 
 
 public class Tester {
@@ -70,7 +64,7 @@ public class Tester {
 				Room.roomOccupancy(roomMap);	
 				break;
 			case 6:
-			    Room newRoom = Room.addRoom();
+			    Room newRoom = Room.createRoom(sc);
 				testRepo.addRoom(newRoom);
 
 			default:

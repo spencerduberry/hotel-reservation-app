@@ -1,5 +1,3 @@
-package utilities.src.main.java;
-
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeSet;
@@ -144,6 +142,7 @@ public class Booking {
 		if (scanner.hasNextInt())
 		{
 			input = scanner.nextInt();
+			scanner.nextLine();
 			isValidInput = true;
 		}
 		else
