@@ -11,10 +11,21 @@ public class InMemoryRoomTypeRespository implements RoomTypeRepository{
 		roomTypes.add(newRoom);
 	}
     
-    public void removeRoom(int roomId)
+    public void removeRoom(Scanner sc)
     {
+    System.out.println(roomTypes);
+    System.out.println("Please enter room to remove:");
+    String roomToRemove = sc.nextLine();
 
+    for (int i = roomTypes.size() - 1; i >= 0; i--) {
+        Room room = roomTypes.get(i);
+        
+        if (room.getType().equalsIgnoreCase(roomToRemove)) {
+            roomTypes.remove(i); 
+        }
     }
+    System.out.println(roomTypes);
+}
 
     public Room getRoom(int roomId)
     {

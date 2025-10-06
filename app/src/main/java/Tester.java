@@ -6,12 +6,14 @@ import java.util.TreeSet;
 
 
 public class Tester {
-	private static Map<String, Room> roomMap = new HashMap<>();
-	private static TreeSet<Booking> bookingTree = new TreeSet<>(new LastNameComparator());
-	private static InMemoryRoomTypeRespository testRepo = new InMemoryRoomTypeRespository();
-
+	
 	public static void main (String[] args)
 	{
+
+		Map<String, Room> roomMap = new HashMap<>();
+		TreeSet<Booking> bookingTree = new TreeSet<>(new LastNameComparator());
+		RoomTypeRepository testRepo = new InMemoryRoomTypeRespository();
+
 		roomMap.put("standardtwin", new Room ("Standard (Twin)", "Comfortable and budget friendly "
 				+ "accommodation", 1, 250, "Twin", 250, 1000));
 		roomMap.put("standarddouble", new Room ("Standard (Double)", "Comfortable and budget friendly "
@@ -42,7 +44,8 @@ public class Tester {
 			System.out.println ("4: Sort reservations");
 			System.out.println ("5: Display available rooms");
 			System.out.println ("6: Add new room type");
-			System.out.println ("7: Close program");
+			System.out.println ("7: Delete room type");
+			System.out.println ("8: Close program");
 			
 			choice= Booking.getIntInput(sc, "Please select an operation:");
 			
@@ -66,11 +69,14 @@ public class Tester {
 			case 6:
 			    Room newRoom = Room.createRoom(sc);
 				testRepo.addRoom(newRoom);
+				break;
+			case 7:
+			    testRepo.removeRoom(sc);
 
 			default:
-				if(choice!=7) System.out.println ("Unknown option");
+				if(choice!=8) System.out.println ("Unknown option");
 			}
-		} while (choice !=7);
+		} while (choice !=8);
 	}
 	
 	static class LastNameComparator implements Comparator<Booking>
