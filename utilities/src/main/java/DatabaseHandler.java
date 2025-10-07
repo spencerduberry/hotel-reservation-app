@@ -1,4 +1,4 @@
-import java.sql.Connection;
+/*import java.sql.Connection;
 
 public class DatabaseHandler {
     private static final String DRIVER_PREFIX = "jdbc:sqlite:";
@@ -9,4 +9,4 @@ public class DatabaseHandler {
 
     }
 
-}
+}*/

@@ -57,7 +57,7 @@ public class Booking {
 		
 		while (counter>0 && nextBooking.equalsIgnoreCase ("y"))
 			{
-			String roomType = getRoomType1(map);
+			String roomType = getRoomType1(map, sc);
 			Room roomDetails = map.get(roomType);
 			boolean vacancy = availabilityChecker(roomDetails);
 			
@@ -180,10 +180,9 @@ public class Booking {
 		return roomAvailable;
 	}
 	
-	public static String getRoomType1(Map<String, Room> map)
+	public static String getRoomType1(Map<String, Room> map, Scanner sc)
 	{
 		boolean validRoom = false;
-		Scanner sc = new Scanner(System.in);
 		System.out.println ("Please enter the room type:");
 		String name=sc.nextLine();
 		String nameToLowerCase = name.toLowerCase();
@@ -212,12 +211,11 @@ public class Booking {
 		}
 	}
 	
-	public static void findBooking(TreeSet<Booking>bookingTree)
+	public static void findBooking(TreeSet<Booking>bookingTree, Scanner sc)
 	{
-		Scanner sc3 = new Scanner(System.in);
 		boolean found = false;
 		System.out.println("Enter the last name of the customer");
-		String lastName1 = sc3.nextLine();
+		String lastName1 = sc.nextLine();
 		for (Booking obj : bookingTree)
 		{
 			if (obj.getLastName().equalsIgnoreCase(lastName1))

@@ -45,7 +45,9 @@ public class Tester {
 			System.out.println ("5: Display available rooms");
 			System.out.println ("6: Add new room type");
 			System.out.println ("7: Delete room type");
-			System.out.println ("8: Close program");
+			System.out.println ("8: Inspect room details");
+			System.out.println ("9: Show all available room types");
+			System.out.println ("10: Close program");
 			
 			choice= Booking.getIntInput(sc, "Please select an operation:");
 			
@@ -55,7 +57,7 @@ public class Tester {
 				Booking.reservation(roomMap, bookingTree);
 				break;
 			case 2:
-				Booking.findBooking(bookingTree);
+				Booking.findBooking(bookingTree, sc);
 				break;
 			case 3:
 				Room.revenueReport(roomMap);
@@ -64,7 +66,7 @@ public class Tester {
 				Booking.printSortedBookings(bookingTree);	
 				break;
 			case 5:
-				Room.roomOccupancy(roomMap);	
+				Room.roomOccupancy(roomMap, sc);	
 				break;
 			case 6:
 			    Room newRoom = Room.createRoom(sc);
@@ -72,11 +74,17 @@ public class Tester {
 				break;
 			case 7:
 			    testRepo.removeRoom(sc);
+				break;
+			case 8: 
+				testRepo.getRoom(sc);
+				break;
+			case 9: 
+				System.out.println(testRepo.getAll());
 
 			default:
-				if(choice!=8) System.out.println ("Unknown option");
+				if(choice!=10) System.out.println ("Unknown option");
 			}
-		} while (choice !=8);
+		} while (choice !=10);
 	}
 	
 	static class LastNameComparator implements Comparator<Booking>
