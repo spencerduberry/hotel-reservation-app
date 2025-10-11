@@ -4,7 +4,7 @@ import java.util.Scanner;
 public interface RoomTypeRepository {
     void addRoom(Room room);
     void removeRoom(Scanner sc);
-    Room getRoom(int roomId);
+    Room getRoom(Scanner sc);
     List<Room> getAll();
 } 
     

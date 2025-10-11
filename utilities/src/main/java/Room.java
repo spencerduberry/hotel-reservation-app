@@ -130,7 +130,7 @@ public class Room {
 		}
 	}
 	
-	public static void roomOccupancy(Map<String, Room> map)
+	public static void roomOccupancy(Map<String, Room> map, Scanner sc)
 	{
 		{
 		Scanner sc2 = new Scanner(System.in);
