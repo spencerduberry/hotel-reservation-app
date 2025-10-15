@@ -3,3 +3,26 @@
 
 # Ignore Gradle build output directory
 build
+
+# Eclipse/VS Code Java Language Server Files
+.project
+.classpath
+.settings/
+.idea/
+.vscode/
+
+# Build artifacts
+bin/
+target/
+out/
+
+# VS Code Java Debugger and Workspace
+*.jar
+*.war
+*.ear
+*.class
+*.log
+.DS_Store # macOS files
+
+# Specific to VS Code Java Language Support
+.jdt_metadata/
