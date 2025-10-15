@@ -27,14 +27,18 @@ public class InMemoryRoomTypeRespository implements RoomTypeRepository{
     System.out.println(roomTypes);
 }
 
-    public Room getRoom(int roomId)
+    public Room getRoom(Scanner sc)
     {
+        Room goFuckYourself = new Room(null, null, 6, 6, null, 6, 6);
 
+        return goFuckYourself;
     }
 
     public List<Room> getAll()
     {
+        List<Room> placeholderList = new ArrayList<Room>();
 
+        return placeholderList;
     }
 
 }
