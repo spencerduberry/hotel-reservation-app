@@ -1,8 +1,12 @@
+package org;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeSet;
+
+import org.Booking;
+import org.Room;
 
 
 public class Tester {
@@ -37,7 +41,7 @@ public class Tester {
 		int choice;
 		do
 		{
-			Scanner sc = new Scanner(System.in);
+			CustomInput input = new ScannerCustomInput();
 			System.out.println ("1: Make reservation");
 			System.out.println ("2: Display reservation details");
 			System.out.println ("3: Generate revenue report");
@@ -49,7 +53,8 @@ public class Tester {
 			System.out.println ("9: Show all available room types");
 			System.out.println ("10: Close program");
 			
-			choice= Booking.getIntInput(sc, "Please select an operation:");
+			System.out.println ("please select an operation");
+			choice= input.inputInt();
 			
 			switch (choice)
 			{
@@ -57,7 +62,7 @@ public class Tester {
 				Booking.reservation(roomMap, bookingTree);
 				break;
 			case 2:
-				Booking.findBooking(bookingTree, sc);
+				Booking.findBooking(bookingTree, input);
 				break;
 			case 3:
 				Room.revenueReport(roomMap);
@@ -66,17 +71,17 @@ public class Tester {
 				Booking.printSortedBookings(bookingTree);	
 				break;
 			case 5:
-				Room.roomOccupancy(roomMap, sc);	
+				Room.roomOccupancy(roomMap, input);	
 				break;
 			case 6:
-			    Room newRoom = Room.createRoom(sc);
+			    Room newRoom = Room.createRoom(input);
 				testRepo.addRoom(newRoom);
 				break;
 			case 7:
-			    testRepo.removeRoom(sc);
+			    testRepo.removeRoom(input);
 				break;
 			case 8: 
-				testRepo.getRoom(sc);
+				testRepo.getRoom(input);
 				break;
 			case 9: 
 				System.out.println(testRepo.getAll());

@@ -1,5 +1,7 @@
+package org;
 import java.util.Map;
 import java.util.Scanner;
+
 
 public class Room {
 
@@ -22,30 +24,6 @@ public class Room {
 		this.roomTypeTotal = roomTypeTotalIn;
 		this.numberAvailable = roomTypeTotal;
 		this.rate = rateIn;
-	}
-
-	public static Room createRoom(Scanner sc)
-	{
-		System.out.println("Please enter the room type:");
-		String roomName = sc.nextLine();
-
-		System.out.println("Please enter the room description:");
-		String roomDescription = sc.nextLine();
-
-		int minimumRoomNumber = Booking.getIntInput(sc, "Please enter the lowest room number:");
-
-		int maximumRoomNumber = Booking.getIntInput(sc, "Please enter the highest room number:");
-
-		System.out.println("What type of bed does this room have?");
-		String bedType = sc.nextLine();
-
-		int roomTypeTotal = Booking.getIntInput(sc, "How many rooms of this type in total in the hotel?");
-		
-		int rate = Booking.getIntInput(sc, "Price per night:");
-
-		Room newRoom = new Room(roomName, roomDescription, minimumRoomNumber, maximumRoomNumber, bedType, roomTypeTotal, rate);
-
-		return newRoom;
 	}
 
 	public int getMinRoomNumber()
@@ -130,18 +108,17 @@ public class Room {
 		}
 	}
 	
-	public static void roomOccupancy(Map<String, Room> map, Scanner sc)
+	public static void roomOccupancy(Map<String, Room> map, CustomInput input)
 	{
 		{
-		Scanner sc2 = new Scanner(System.in);
 		System.out.println ("Enter valid room type");
-		String roomType=sc2.nextLine();
+		String roomType=input.inputString();
 		String roomTypeLowerCase = roomType.toLowerCase();
 		boolean valid = Booking.roomValidityChecker(map, roomTypeLowerCase);
 		while (!valid)
 		{
 			System.out.println ("Enter valid room type");
-			roomType=sc2.nextLine();
+			roomType=input.inputString();
 			valid = Booking.roomValidityChecker(map, roomType);
 		}
 		Room room = map.get(roomType);

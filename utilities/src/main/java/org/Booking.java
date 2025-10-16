@@ -1,3 +1,4 @@
+package org;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeSet;
@@ -211,11 +212,11 @@ public class Booking {
 		}
 	}
 	
-	public static void findBooking(TreeSet<Booking>bookingTree, Scanner sc)
+	public static void findBooking(TreeSet<Booking>bookingTree, CustomInput input)
 	{
 		boolean found = false;
 		System.out.println("Enter the last name of the customer");
-		String lastName1 = sc.nextLine();
+		String lastName1 = input.inputString();
 		for (Booking obj : bookingTree)
 		{
 			if (obj.getLastName().equalsIgnoreCase(lastName1))
