@@ -11,7 +11,7 @@ import org.Room;
 
 public class Tester {
 	
-	public static void main (String[] args)
+	/*public static void main (String[] args)
 	{
 
 		Map<String, Room> roomMap = new HashMap<>();
@@ -98,5 +98,5 @@ public class Tester {
 		{
 			return booking1.getLastName().compareTo(booking2.getLastName());
 		}
-	}
+	}*/
 }

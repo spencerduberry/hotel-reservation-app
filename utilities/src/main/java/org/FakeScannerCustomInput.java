@@ -8,8 +8,11 @@ public class FakeScannerCustomInput implements CustomInput, ConfigurableTestInpu
     private final Queue<String> inputQueue = new LinkedList<>();
     
     public String inputString(){
-        String stringInput = "fakeString";
-        return stringInput;
+        String nextInput = inputQueue.poll();
+        if (nextInput == null) {
+            throw new IllegalStateException("Test failed: System requested more input (string) than was queued.");
+        }
+        return nextInput;
     }
     
     public int inputInt(){
