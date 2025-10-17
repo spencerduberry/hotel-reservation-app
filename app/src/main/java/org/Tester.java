@@ -2,21 +2,17 @@ package org;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.TreeSet;
-
-import org.Booking;
-import org.Room;
-
 
 public class Tester {
 	
-	/*public static void main (String[] args)
+	public static void main (String[] args)
 	{
-
+		CustomInput input = new ScannerCustomInput();
 		Map<String, Room> roomMap = new HashMap<>();
 		TreeSet<Booking> bookingTree = new TreeSet<>(new LastNameComparator());
 		RoomTypeRepository testRepo = new InMemoryRoomTypeRespository();
+		RoomFactory factory = new RoomFactory(input, testRepo);
 
 		roomMap.put("standardtwin", new Room ("Standard (Twin)", "Comfortable and budget friendly "
 				+ "accommodation", 1, 250, "Twin", 250, 1000));
@@ -41,7 +37,6 @@ public class Tester {
 		int choice;
 		do
 		{
-			CustomInput input = new ScannerCustomInput();
 			System.out.println ("1: Make reservation");
 			System.out.println ("2: Display reservation details");
 			System.out.println ("3: Generate revenue report");
@@ -74,8 +69,7 @@ public class Tester {
 				Room.roomOccupancy(roomMap, input);	
 				break;
 			case 6:
-			    Room newRoom = Room.createRoom(input);
-				testRepo.addRoom(newRoom);
+			    factory.addRoomType();
 				break;
 			case 7:
 			    testRepo.removeRoom(input);
@@ -98,5 +92,5 @@ public class Tester {
 		{
 			return booking1.getLastName().compareTo(booking2.getLastName());
 		}
-	}*/
+	}
 }

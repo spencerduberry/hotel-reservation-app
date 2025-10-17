@@ -1,11 +1,10 @@
 package org;
 import java.util.List;
-import java.util.Scanner;
 
 public interface RoomTypeRepository {
     void addRoom(Room room);
-    void removeRoom(Scanner sc);
-    Room getRoom(Scanner sc);
+    void removeRoom(CustomInput input);
+    Room getRoom(CustomInput input);
     List<Room> getAll();
 } 
     
