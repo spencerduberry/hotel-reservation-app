@@ -1,7 +1,7 @@
 package org;
 import java.util.Scanner;
 
-class ScannerCustomInput implements CustomInput{
+public class ScannerCustomInput implements CustomInput{
     Scanner sc = new Scanner(System.in);
 
     public String inputString(){

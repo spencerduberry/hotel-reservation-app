@@ -1,4 +1,4 @@
-package org;
+package utilities.src.test.java.org.example;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.InputMismatchException;
 
+import org.ScannerCustomInput;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

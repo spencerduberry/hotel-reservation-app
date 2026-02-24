@@ -3,7 +3,7 @@
  */
 package org.example.app;
 
-class MessageUtils {
+public class MessageUtils {
     public static String getMessage() {
         return "Hello      World!";
     }
