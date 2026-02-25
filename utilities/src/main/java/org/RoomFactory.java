@@ -1,7 +1,8 @@
 package org;
 
 public class RoomFactory {
-    private final CustomInput inputSource;
+    private final CustomInput
+            inputSource;
     private final RoomTypeRepository roomRepo;
 
     public RoomFactory(CustomInput inputSource, RoomTypeRepository roomRepo) {

@@ -1,5 +1,8 @@
 package org;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 
 public class Room {
@@ -127,4 +130,34 @@ public class Room {
 		System.out.println();
 		}
 	}
+
+    static class Builder {
+        private final List<ButtonContainer> buttons = new ArrayList<>();
+        private ButtonContainer notification;
+
+        //take in a ViewState and make a copy
+        private Builder(ExpViewState state) {
+            buttons.addAll(state.containers);
+            notification = state.notification;
+        }
+
+        Builder setNotification(boolean checked, boolean visible) {
+            this.notification = new ButtonContainer(checked, visible);
+            return this;
+        }
+
+        Builder toggleButtonAt(int index) {
+            buttons.set(index, new ButtonContainer(!(buttons.get(index).isButtonChecked)));
+            return this;
+        }
+
+        Builder setButtonContainerAt(int index, Function<ButtonContainer, ButtonContainer> factory) {
+            buttons.set(index, factory.apply(buttons.get(index)));
+            return this;
+        }
+
+        ExpViewState build() {
+            return new ExpViewState(buttons, notification);
+        }
+    }
 }
