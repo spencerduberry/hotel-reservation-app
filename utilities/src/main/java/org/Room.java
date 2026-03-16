@@ -1,30 +1,25 @@
 package org;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
-
 
 public class Room {
 
-	private String type;
-	int minRoomNumber;
+	private final String type;
+	private final String description;
+    int minRoomNumber;
 	int maxRoomNumber;
-	private String bedType;
-	private int roomTypeTotal;
-	private int numberAvailable;
-	private int rate;
+	private final String bedType;
+	private final int roomTypeTotal;
+	private final int rate;
 	private int totalBooked = 0;
-	private Room associatedObject;
-	
-	public Room (String typeIn, String descriptionIn, int minRoomNumberIn, int maxRoomNumberIn, String bedTypeIn, int roomTypeTotalIn, int rateIn)
+
+	private Room (String typeIn, String descriptionIn, int minRoomNumberIn, int maxRoomNumberIn, String bedTypeIn, int roomTypeTotalIn, int rateIn)
 	{
 		this.type = typeIn;
-		this.minRoomNumber = minRoomNumberIn;
+		this.description = descriptionIn;
+        this.minRoomNumber = minRoomNumberIn;
 		this.maxRoomNumber = maxRoomNumberIn;
 		this.bedType = bedTypeIn;
 		this.roomTypeTotal = roomTypeTotalIn;
-		this.numberAvailable = roomTypeTotal;
 		this.rate = rateIn;
 	}
 
@@ -47,39 +42,15 @@ public class Room {
 	{
 		return totalBooked;
 	}
-	
-	public void decrementRemainingRooms()
-	{
-		numberAvailable--;
-		if (associatedObject != null)
-		{
-			associatedObject.decrementAssociatedObject();
-		}
-	}
-	
-	public void decrementAssociatedObject()
-	{
-		numberAvailable--;
-	}
-	
-	public void setAssociatedObject(Room associatedObject)
-	{
-		this.associatedObject = associatedObject;
-	}
-	
+
 	public String getType()
 	{
 		return type;
 	}
 	
-	public int getroomTypeTotal()
+	public int getRoomTypeTotal()
 	{
 		return roomTypeTotal;
-	}
-	
-	public int getNumberAvailable()
-	{
-		return numberAvailable;
 	}
 	
 	public int getRate()
@@ -125,39 +96,56 @@ public class Room {
 		}
 		Room room = map.get(roomType);
 		System.out.println("Rooms Booked: " + room.getTotalBooked());
-		System.out.println("Remaining rooms: " + room.getNumberAvailable());
-		System.out.println("Total Rooms: " + room.getroomTypeTotal());
+		System.out.println("Total Rooms: " + room.getRoomTypeTotal());
 		System.out.println();
 		}
 	}
+    public static class RoomBuilder {
+        String type;
+        String description;
+        int minRoomNumber;
+        int maxRoomNumber;
+        String bedType;
+        int roomTypeTotal;
+        int rate;
 
-    static class Builder {
-        private final List<ButtonContainer> buttons = new ArrayList<>();
-        private ButtonContainer notification;
-
-        //take in a ViewState and make a copy
-        private Builder(ExpViewState state) {
-            buttons.addAll(state.containers);
-            notification = state.notification;
-        }
-
-        Builder setNotification(boolean checked, boolean visible) {
-            this.notification = new ButtonContainer(checked, visible);
+        public RoomBuilder setType(String type) {
+            this.type = type;
             return this;
         }
 
-        Builder toggleButtonAt(int index) {
-            buttons.set(index, new ButtonContainer(!(buttons.get(index).isButtonChecked)));
+        public RoomBuilder setDescription(String description) {
+            this.description = description;
             return this;
         }
 
-        Builder setButtonContainerAt(int index, Function<ButtonContainer, ButtonContainer> factory) {
-            buttons.set(index, factory.apply(buttons.get(index)));
+        public RoomBuilder setMinRoomNumber(int minRoomNumber) {
+            this.minRoomNumber = minRoomNumber;
             return this;
         }
 
-        ExpViewState build() {
-            return new ExpViewState(buttons, notification);
+        public RoomBuilder setMaxRoomNumber(int maxRoomNumber) {
+            this.maxRoomNumber = maxRoomNumber;
+            return this;
+        }
+
+        public RoomBuilder setBedType(String bedType) {
+            this.bedType = bedType;
+            return this;
+        }
+
+        public RoomBuilder setRoomTypeTotal(int roomTypeTotal) {
+            this.roomTypeTotal = roomTypeTotal;
+            return this;
+        }
+
+        public RoomBuilder setRate(int rate) {
+            this.rate = rate;
+            return this;
+        }
+
+        public Room build() {
+            return new Room(type, description, minRoomNumber, maxRoomNumber, bedType, roomTypeTotal, rate);
         }
     }
 }
