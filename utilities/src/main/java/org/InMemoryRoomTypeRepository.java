@@ -10,35 +10,34 @@ public class InMemoryRoomTypeRepository implements RoomTypeRepository{
     }
 
     private void seedData() {
-        // You use the builder exactly like the User would!
-        roomTypes.add(new Room.RoomBuilder()
-                .setType("Standard Double")
-                .setDescription("Comfortable and budget friendly")
-                .setMinRoomNumber(1)
-                .setMaxRoomNumber(250)
-                .setBedType("Double")
-                .setRoomTypeTotal(250)
-                .setRate(1000)
+        roomTypes.add(Room.builder()
+                .type("Standard Double")
+                .description("Comfortable and budget friendly")
+                .minRoomNumber(1)
+                .maxRoomNumber(250)
+                .bedType("Double")
+                .roomTypeTotal(250)
+                .rate(1000)
                 .build());
 
-        roomTypes.add(new Room.RoomBuilder()
-                .setType("Deluxe")
-                .setDescription("Enhanced comfort and additional space")
-                .setMinRoomNumber(251)
-                .setMaxRoomNumber(500)
-                .setBedType("Queen")
-                .setRoomTypeTotal(250)
-                .setRate(1200)
+        roomTypes.add(Room.builder()
+                .type("Deluxe")
+                .description("Enhanced comfort and additional space")
+                .minRoomNumber(251)
+                .maxRoomNumber(500)
+                .bedType("Queen")
+                .roomTypeTotal(250)
+                .rate(1200)
                 .build());
 
-        roomTypes.add(new Room.RoomBuilder()
-                .setType("Superior")
-                .setDescription("Luxury and premium comfort")
-                .setMinRoomNumber(501)
-                .setMaxRoomNumber(530)
-                .setBedType("King")
-                .setRoomTypeTotal(30)
-                .setRate(1800)
+        roomTypes.add(Room.builder()
+                .type("Superior")
+                .description("Luxury and premium comfort")
+                .minRoomNumber(501)
+                .maxRoomNumber(530)
+                .bedType("King")
+                .roomTypeTotal(30)
+                .rate(1800)
                 .build());
     }
 
@@ -56,7 +55,7 @@ public class InMemoryRoomTypeRepository implements RoomTypeRepository{
     for (int i = roomTypes.size() - 1; i >= 0; i--) {
         Room room = roomTypes.get(i);
         
-        if (room.getType().equalsIgnoreCase(roomToRemove)) {
+        if (room.type().equalsIgnoreCase(roomToRemove)) {
             roomTypes.remove(i); 
         }
     }

@@ -19,8 +19,6 @@ public class Booking {
 	this.lengthOfStay=lengthOfStayIn;
 	this.roomNumber=roomNumberIn;
 	this.room = room;
-	this.room.decrementRemainingRooms();
-	this.room.incrementTotalBooked();
 	}
 	
 	public String getLastName()
@@ -30,7 +28,7 @@ public class Booking {
 	
 	public String getRoomType()
 	{
-		return room.getType();
+		return room.type();
 	}
 	
 	public Room getRoom()
@@ -94,7 +92,7 @@ public class Booking {
 	public static boolean availabilityChecker(Room roomType)
 	{
 
-			if (roomType.getNumberAvailable()>0)
+			if (roomType.roomTypeTotal() > 0)
 			{
 				return true;
 			}
@@ -157,7 +155,7 @@ public class Booking {
 	
 	public static boolean roomNumberValidityChecker (Room roomType, int roomNumber)
 	{
-		if (roomNumber>=roomType.getMinRoomNumber() && roomNumber<=roomType.getMaxRoomNumber())
+		if (roomNumber>=roomType.minRoomNumber() && roomNumber<=roomType.maxRoomNumber())
 		{
 			return true;
 		}
