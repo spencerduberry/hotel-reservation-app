@@ -1,151 +1,40 @@
 package org;
+import com.google.auto.value.AutoValue;
+
 import java.util.Map;
 
-public class Room {
+@AutoValue
+public abstract class Room {
 
-	private final String type;
-	private final String description;
-    int minRoomNumber;
-	int maxRoomNumber;
-	private final String bedType;
-	private final int roomTypeTotal;
-	private final int rate;
-	private int totalBooked = 0;
+	public abstract String type();
+	public abstract String description();
+	public abstract int minRoomNumber();
+	public abstract int maxRoomNumber();
+	public abstract String bedType();
+	public abstract int roomTypeTotal();
+	public abstract int rate();
+    public abstract Builder toBuilder();
 
-	private Room (String typeIn, String descriptionIn, int minRoomNumberIn, int maxRoomNumberIn, String bedTypeIn, int roomTypeTotalIn, int rateIn)
-	{
-		this.type = typeIn;
-		this.description = descriptionIn;
-        this.minRoomNumber = minRoomNumberIn;
-		this.maxRoomNumber = maxRoomNumberIn;
-		this.bedType = bedTypeIn;
-		this.roomTypeTotal = roomTypeTotalIn;
-		this.rate = rateIn;
-	}
+    public static Builder builder() {
+        return new AutoValue_Room.Builder()
+                .type(null)
+                .description(null)
+                .minRoomNumber(0)
+                .maxRoomNumber(0)
+                .bedType(null)
+                .roomTypeTotal(0)
+                .rate(0);
+    }
 
-	public int getMinRoomNumber()
-	{
-		return minRoomNumber;
-	}
-	
-	public int getMaxRoomNumber()
-	{
-		return maxRoomNumber;
-	}
-	
-	public void incrementTotalBooked()
-	{
-		totalBooked++;
-	}
-	
-	public int getTotalBooked()
-	{
-		return totalBooked;
-	}
-
-	public String getType()
-	{
-		return type;
-	}
-	
-	public int getRoomTypeTotal()
-	{
-		return roomTypeTotal;
-	}
-	
-	public int getRate()
-	{
-		return rate;
-	}
-	
-	public String toString()
-	{
-    return "Room {" +
-            "type='" + type + '\'' +
-            ", minRoomNumber=" + minRoomNumber +
-            ", maxRoomNumber=" + maxRoomNumber +
-            ", bedType='" + bedType + '\'' +
-            ", rate=" + rate +
-            '}';
-}
-	
-	public static void revenueReport(Map<String, Room> map)
-	{
-		for (Map.Entry<String, Room> entry : map.entrySet())
-		{
-			Room obj = entry.getValue();
-			System.out.println(obj.getType());
-			System.out.println("Number booked: " + obj.getTotalBooked());
-			System.out.println("Revenue: £" + obj.getTotalBooked()*obj.getRate());
-			System.out.println();
-		}
-	}
-	
-	public static void roomOccupancy(Map<String, Room> map, CustomInput input)
-	{
-		{
-		System.out.println ("Enter valid room type");
-		String roomType=input.inputString();
-		String roomTypeLowerCase = roomType.toLowerCase();
-		boolean valid = Booking.roomValidityChecker(map, roomTypeLowerCase);
-		while (!valid)
-		{
-			System.out.println ("Enter valid room type");
-			roomType=input.inputString();
-			valid = Booking.roomValidityChecker(map, roomType);
-		}
-		Room room = map.get(roomType);
-		System.out.println("Rooms Booked: " + room.getTotalBooked());
-		System.out.println("Total Rooms: " + room.getRoomTypeTotal());
-		System.out.println();
-		}
-	}
-    public static class RoomBuilder {
-        String type;
-        String description;
-        int minRoomNumber;
-        int maxRoomNumber;
-        String bedType;
-        int roomTypeTotal;
-        int rate;
-
-        public RoomBuilder setType(String type) {
-            this.type = type;
-            return this;
-        }
-
-        public RoomBuilder setDescription(String description) {
-            this.description = description;
-            return this;
-        }
-
-        public RoomBuilder setMinRoomNumber(int minRoomNumber) {
-            this.minRoomNumber = minRoomNumber;
-            return this;
-        }
-
-        public RoomBuilder setMaxRoomNumber(int maxRoomNumber) {
-            this.maxRoomNumber = maxRoomNumber;
-            return this;
-        }
-
-        public RoomBuilder setBedType(String bedType) {
-            this.bedType = bedType;
-            return this;
-        }
-
-        public RoomBuilder setRoomTypeTotal(int roomTypeTotal) {
-            this.roomTypeTotal = roomTypeTotal;
-            return this;
-        }
-
-        public RoomBuilder setRate(int rate) {
-            this.rate = rate;
-            return this;
-        }
-
-        public Room build() {
-            return new Room(type, description, minRoomNumber, maxRoomNumber, bedType, roomTypeTotal, rate);
-        }
+    @AutoValue.Builder
+    public abstract static class Builder{
+		public abstract Builder type(String value);
+        public abstract Builder description(String value);
+        public abstract Builder minRoomNumber(int value);
+        public abstract Builder maxRoomNumber(int value);
+        public abstract Builder bedType(String value);
+        public abstract Builder roomTypeTotal(int value);
+        public abstract Builder rate(int value);
+        public abstract Room build();
     }
 }

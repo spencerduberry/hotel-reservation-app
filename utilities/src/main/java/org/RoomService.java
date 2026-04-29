@@ -41,13 +41,13 @@ public class RoomService {
                 "The number must be a positive integer. Please try again.",
                 val -> val >= 0);
 
-        Room newRoom = new Room.RoomBuilder().setType(type)
-                .setDescription(description)
-                .setMinRoomNumber(minRoomNumber)
-                .setMaxRoomNumber(maxRoomNumber)
-                .setBedType(bedType)
-                .setRoomTypeTotal(roomTypeTotal)
-                .setRate(rate)
+        Room newRoom = Room.builder().type(type)
+                .description(description)
+                .minRoomNumber(minRoomNumber)
+                .maxRoomNumber(maxRoomNumber)
+                .bedType(bedType)
+                .roomTypeTotal(roomTypeTotal)
+                .rate(rate)
                 .build();
 
         roomRepo.addRoom(newRoom);
