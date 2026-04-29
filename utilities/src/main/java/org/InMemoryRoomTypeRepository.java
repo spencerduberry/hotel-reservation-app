@@ -64,7 +64,7 @@ public class InMemoryRoomTypeRepository implements RoomTypeRepository{
 
     public List<Room> getAll()
     {
-        return new ArrayList<>();
+        return roomTypes;
     }
 
 }
