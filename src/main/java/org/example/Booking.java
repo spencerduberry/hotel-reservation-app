@@ -19,6 +19,8 @@ public abstract class Booking {
 				.room(null);
 	}
 
+	public abstract BookingBuilder toBuilder();
+
 	@AutoValue.Builder
 	public abstract static class BookingBuilder {
 		public abstract BookingBuilder firstName(String Value);
