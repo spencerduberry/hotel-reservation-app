@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.List;
 import java.util.Map;
 
 public class BookingService {
@@ -7,10 +8,30 @@ public class BookingService {
     private final CustomInput inputSource;
     private final BookingRepository bookingRepo;
 
-    public BookingService(CustomInput inputSource, BookingRepository bookingRepo) {
+    BookingAuthenticator authenticator;
+
+    public BookingService(CustomInput inputSource, BookingRepository bookingRepo, BookingAuthenticator authenticator) {
         this.inputSource = inputSource;
         this.bookingRepo = bookingRepo;
+        this.authenticator = authenticator;
     }
+
+//    public void addBooking() {
+//        System.out.println("Please enter the customer's first name.");
+//        String firstName = inputSource.inputString();
+//
+//        System.out.println("Please enter the customer's surname.");
+//        String surname = inputSource.inputString();
+//
+//        System.out.println("Please enter the length of the stay.");
+//
+//        System.out.println("Please enter the room number.");
+//
+//        System.out.println("Please enter the type of room.");
+//        String roomType = inputSource.inputString();
+//
+//        bookingRepo.addBooking(newBooking);
+//    }
 
 //    public static void makeReservation(Map<String, Room> map, TreeSet<Booking> set)
 //    {
@@ -125,18 +146,6 @@ public class BookingService {
 //        }
 //        return nameToLowerCase;
 //    }
-
-    public static boolean roomValidityChecker(Map<String, Room> map, String roomType)
-    {
-        if (map.containsKey(roomType))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 
 //    public static void findBooking(TreeSet<Booking>bookingTree, CustomInput input)
 //    {

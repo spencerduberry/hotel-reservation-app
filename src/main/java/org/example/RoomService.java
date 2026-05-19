@@ -1,6 +1,8 @@
 package org.example;
 
 
+import static org.example.Utils.*;
+
 public class RoomService {
     private final CustomInput inputSource;
     private final RoomTypeRepository roomRepo;
@@ -20,24 +22,24 @@ public class RoomService {
         System.out.println("Please enter a description of the room type.");
         String description = inputSource.inputString();
 
-        minRoomNumber = Utils.getValidInt(inputSource, "Please enter the minimum room number.",
+        minRoomNumber = getValidInt(inputSource, "Please enter the minimum room number.",
                 "The number must be a positive integer. Please try again.",
                 val -> val > 0);
 
         final int minRoomNumberCopy = minRoomNumber;
 
-        maxRoomNumber = Utils.getValidInt(inputSource, "Please enter the maximum room number.",
+        maxRoomNumber = getValidInt(inputSource, "Please enter the maximum room number.",
                 "The maximum room number must be larger than the minimum room number. Please try again",
                 val -> val > minRoomNumberCopy);
 
         System.out.println("Please enter the bed type.");
         String bedType = inputSource.inputString();
 
-        int roomTypeTotal = Utils.getValidInt(inputSource, "How many rooms of this type are available?",
+        int roomTypeTotal = getValidInt(inputSource, "How many rooms of this type are available?",
                 "The number must be zero or a positive integer. Please try again.",
                 val -> val >= 0);
 
-        int rate = Utils.getValidInt(inputSource, "Please enter the nightly rate.",
+        int rate = getValidInt(inputSource, "Please enter the nightly rate.",
                 "The number must be a positive integer. Please try again.",
                 val -> val >= 0);
 
