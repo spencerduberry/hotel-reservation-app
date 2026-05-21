@@ -5,7 +5,6 @@ public class Main {
 	public static void main (String[] args)
 	{
 		CustomInput input = new ScannerCustomInput();
-//		TreeSet<Booking> bookingTree = new TreeSet<>(new LastNameComparator());
 		RoomTypeRepository roomRepo = new InMemoryRoomTypeRepository();
 		BookingRepository bookingRepo = new InMemoryBookingRepository();
 		BookingAuthenticator authenticator = new BookingAuthenticator();
