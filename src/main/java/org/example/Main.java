@@ -6,8 +6,23 @@ public class Main {
 	{
 		CustomInput input = new ScannerCustomInput();
 //		TreeSet<Booking> bookingTree = new TreeSet<>(new LastNameComparator());
-		RoomTypeRepository testRepo = new InMemoryRoomTypeRepository();
-		RoomService service = new RoomService(input, testRepo);
+		RoomTypeRepository roomRepo = new InMemoryRoomTypeRepository();
+		BookingRepository bookingRepo = new InMemoryBookingRepository();
+		BookingAuthenticator authenticator = new BookingAuthenticator();
+		RoomService roomService = new RoomService(input, roomRepo);
+		BookingService bookingService = new BookingService(input, bookingRepo, authenticator, roomRepo);
+
+		Room seedRoom = Room.builder()
+				.type("deluxe")
+				.description("juicy")
+				.minRoomNumber(1)
+				.maxRoomNumber(60)
+				.bedType("raggedy")
+				.roomTypeTotal(50)
+				.rate(60)
+				.build();
+
+		roomRepo.addRoom(seedRoom);
 
 		int choice;
 		do
@@ -28,9 +43,9 @@ public class Main {
 
 			switch (choice)
 			{
-//			case 1:
-//				Booking.reservation(roomMap, bookingTree);
-//				break;
+			case 1:
+				bookingService.addBooking();
+				break;
 //			case 2:
 //				Booking.findBooking(bookingTree, input);
 //				break;
@@ -44,13 +59,13 @@ public class Main {
 //				Room.roomOccupancy(roomMap, input);
 //				break;
 			case 6:
-			    service.addRoomType();
+			    roomService.addRoomType();
 				break;
 			case 7:
-			    testRepo.removeRoom(input);
+			    roomRepo.removeRoom(input);
 				break;
 			case 9:
-				System.out.println(testRepo.getAll());
+				System.out.println(roomRepo.getAll());
 
 			default:
 				if(choice!=10) System.out.println ("Unknown option");

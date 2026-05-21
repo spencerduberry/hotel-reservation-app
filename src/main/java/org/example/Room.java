@@ -4,7 +4,7 @@ import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class Room {
-
+    public static final Room EMPTY = Room.builder().build();
 	public abstract String type();
 	public abstract String description();
 	public abstract int minRoomNumber();

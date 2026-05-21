@@ -1,5 +1,11 @@
 package org.example;
 
+import static org.example.Utils.getValidInt;
+
+import androidx.annotation.Nullable;
+
+import com.google.auto.value.AutoValue;
+
 import java.util.List;
 import java.util.Map;
 
@@ -7,59 +13,95 @@ public class BookingService {
 
     private final CustomInput inputSource;
     private final BookingRepository bookingRepo;
-
+    private final RoomTypeRepository roomRepo;
     BookingAuthenticator authenticator;
 
-    public BookingService(CustomInput inputSource, BookingRepository bookingRepo, BookingAuthenticator authenticator) {
+    public  BookingService(CustomInput inputSource, BookingRepository bookingRepo, BookingAuthenticator authenticator, RoomTypeRepository roomRepo) {
         this.inputSource = inputSource;
         this.bookingRepo = bookingRepo;
         this.authenticator = authenticator;
+        this.roomRepo = roomRepo;
     }
 
-//    public void addBooking() {
-//        System.out.println("Please enter the customer's first name.");
-//        String firstName = inputSource.inputString();
-//
-//        System.out.println("Please enter the customer's surname.");
-//        String surname = inputSource.inputString();
-//
-//        System.out.println("Please enter the length of the stay.");
-//
-//        System.out.println("Please enter the room number.");
-//
-//        System.out.println("Please enter the type of room.");
-//        String roomType = inputSource.inputString();
-//
-//        bookingRepo.addBooking(newBooking);
-//    }
+    public void addBooking() {
+        int lengthOfStay;
+        int roomNumber = 0;
+        boolean validRoomNumber = false;
+        boolean validRoomType = false;
+        String roomName = "";
+        Room room = Room.EMPTY;
 
-//    public static void makeReservation(Map<String, Room> map, TreeSet<Booking> set)
-//    {
-//        String roomType = getRoomType1(map, sc);
-//        Room roomDetails = map.get(roomType);
-//        boolean vacancy = availabilityChecker(roomDetails);
-//
-//        if (vacancy)
-//        {
-//            int roomNumber = getRoomNumber(roomDetails, set);
-//            System.out.println ("Please enter customer's first name:");
-//            String firstName=sc.nextLine();
-//            System.out.println ("Please enter customer's last name:");
-//            String lastName=sc.nextLine();
-//            int lengthOfStay=getIntInput(sc, "Please enter the length of the stay:");
-//            sc.nextLine();
-//            Booking b = new Booking(firstName, lastName, lengthOfStay, roomNumber,
-//                    roomDetails);
-//            set.add(b);
-//        }
-//        else
-//        {
-//            System.out.println ("No vacancy in this room");
-//            System.out.println();
-//            break;
-//        }
-//
-//    }
+        System.out.println("Please enter the customer's first name.");
+        String firstName = inputSource.inputString();
+
+        System.out.println("Please enter the customer's surname.");
+        String surname = inputSource.inputString();
+
+        lengthOfStay = getValidInt(inputSource, "Please enter the length of stay.",
+                "The number must be a positive integer. Please try again.",
+                val -> val > 0);
+
+        System.out.println("Please enter the type of room.");
+
+        while(!validRoomType) {
+            roomName = inputSource.inputString();
+            validRoomType = authenticator.isValidRoom(roomName, roomRepo);
+        }
+
+        for (Room aRoom: roomRepo.getAll()) {
+            if (aRoom.type().equalsIgnoreCase(roomName)) {
+                room = aRoom;
+            }
+        }
+
+        System.out.println("Please enter the room number.");
+
+        while (!validRoomNumber) {
+            RoomNumberResult result = authenticator
+                    .roomNumberValidityChecker(inputSource.inputInt(), room, bookingRepo);
+
+            if (result.isSuccess()) {
+                validRoomNumber = true;
+                roomNumber = result.value();
+            }
+        }
+
+        bookingRepo.addBooking(Booking.builder()
+                .firstName(firstName)
+                .lastName(surname)
+                .lengthOfStay(lengthOfStay)
+                .roomNumber(roomNumber)
+                .room(room)
+                .build());
+    }
+
+    @AutoValue
+    public static abstract class RoomNumberResult {
+        @Nullable
+        public abstract Integer value();
+
+        @Nullable
+        public abstract ErrorType error();
+
+        public enum ErrorType {
+            DOUBLEBOOKING,
+
+            OUTOFRANGE
+        }
+
+        static RoomNumberResult ok(Integer value) {
+            return new AutoValue_BookingService_RoomNumberResult(value, null);
+        }
+
+        static RoomNumberResult error(ErrorType error) {
+            return new AutoValue_BookingService_RoomNumberResult(null, error);
+        }
+
+        public boolean isSuccess() {
+            return value() != null;
+        }
+
+    }
 
     public static boolean availabilityChecker(Room roomType)
     {
@@ -102,17 +144,7 @@ public class BookingService {
 //        return roomNumber;
 //    }
 
-    public static boolean roomNumberValidityChecker (Room roomType, int roomNumber)
-    {
-        if (roomNumber>=roomType.minRoomNumber() && roomNumber<=roomType.maxRoomNumber())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+
 
 //    public static boolean doubleBookingChecker (TreeSet<Booking> bookingTree, int roomNumber)
 //    {
