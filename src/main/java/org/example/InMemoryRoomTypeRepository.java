@@ -2,9 +2,10 @@ package org.example;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryRoomTypeRepository implements RoomTypeRepository{
-    
+public class InMemoryRoomTypeRepository implements RoomTypeRepository {
+
     List<Room> roomTypes = new ArrayList<>();
+
     public InMemoryRoomTypeRepository() {
         seedData();
     }
@@ -41,30 +42,26 @@ public class InMemoryRoomTypeRepository implements RoomTypeRepository{
                 .build());
     }
 
-    public void addRoom(Room newRoom)
-	{
-		roomTypes.add(newRoom);
-	}
-    
-    public void removeRoom(CustomInput input)
-    {
-    System.out.println(roomTypes);
-    System.out.println("Please enter room to remove:");
-    String roomToRemove = input.inputString();
-
-    for (int i = roomTypes.size() - 1; i >= 0; i--) {
-        Room room = roomTypes.get(i);
-        
-        if (room.type().equalsIgnoreCase(roomToRemove)) {
-            roomTypes.remove(i); 
-        }
+    public void addRoom(Room newRoom) {
+        roomTypes.add(newRoom);
     }
-    System.out.println(roomTypes);
-}
 
-    public List<Room> getAll()
-    {
+    public void removeRoom(CustomInput input) {
+        System.out.println(roomTypes);
+        System.out.println("Please enter room to remove:");
+        String roomToRemove = input.inputString();
+
+        for (int i = roomTypes.size() - 1; i >= 0; i--) {
+            Room room = roomTypes.get(i);
+
+            if (room.type().equalsIgnoreCase(roomToRemove)) {
+                roomTypes.remove(i);
+            }
+        }
+        System.out.println(roomTypes);
+    }
+
+    public List<Room> getAll() {
         return roomTypes;
     }
-
 }

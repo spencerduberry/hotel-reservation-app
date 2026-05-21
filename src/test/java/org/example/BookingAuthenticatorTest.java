@@ -1,6 +1,12 @@
 package org.example;
 
+import static org.example.BookingService.*;
+import static org.example.BookingService.RoomNumberResult.*;
+import static org.example.BookingService.RoomNumberResult.ErrorType.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -54,59 +60,67 @@ public class BookingAuthenticatorTest {
 
 
     @Test
-    public void whenRoomNumberIsEqualToRoomNumberOfExistingBooking_thenAvailabilityIsFalse() {
-        assertFalse(authenticator.isUnoccupied(invalidBookingBase, bookingRepo));
+    public void whenRoomNumberIsEqualToRoomNumberOfExistingBooking_thenDoubleBookingError() {
+        RoomNumberResult result = authenticator.roomNumberValidityChecker(55, seedRoom, bookingRepo);
+
+        assertEquals(DOUBLEBOOKING, result.error());
+        assertNull(result.value());
     }
 
     @Test
-    public void whenRoomTypeUnavailable_thenAvailabilityIsFalse() {
+    public void whenRoomTypeAtFullCapacity_thenAvailabilityIsFalse() {
 
     }
 
     @Test
-    public void whenRoomNumberIsLessThanMinimumRoomNumber_thenInvalidRoomNumber() {
-        Booking invalidBooking = invalidBookingBase.toBuilder().roomNumber(0).build();
+    public void whenRoomNumberIsLessThanMinimumRoomNumber_thenOutOfRangeError() {
+        RoomNumberResult result = authenticator.roomNumberValidityChecker(0, seedRoom, bookingRepo);
 
-        assertFalse(authenticator.isValidRoomNumber(invalidBooking));
+        assertEquals(OUTOFRANGE, result.error());
+        assertNull(result.value());
     }
 
     @Test
     public void whenRoomNumberIsGreaterThanMaximumRoomNumber_thenInvalidRoomNumber() {
-        Booking invalidBooking = invalidBookingBase.toBuilder().roomNumber(61).build();
+        RoomNumberResult result = authenticator.roomNumberValidityChecker(61, seedRoom, bookingRepo);
 
-        assertFalse(authenticator.isValidRoomNumber(invalidBooking));
+        assertEquals(OUTOFRANGE, result.error());
+        assertNull(result.value());
     }
 
     @Test
     public void whenRoomNumberIsEqualToMinimumRoomNumber_thenValidRoomNumber() {
-        Booking validBooking = invalidBookingBase.toBuilder().roomNumber(1).build();
+        RoomNumberResult result = authenticator.roomNumberValidityChecker(1, seedRoom, bookingRepo);
 
-        assertTrue(authenticator.isValidRoomNumber(validBooking));
+        assertTrue(result.isSuccess());
+        assertNotNull(result.value());
+        assertNull(result.error());
     }
 
     @Test
     public void whenRoomNumberIsEqualToMaximumRoomNumber_thenValidRoomNumber() {
-        Booking validBooking = invalidBookingBase.toBuilder().roomNumber(60).build();
+        RoomNumberResult result = authenticator.roomNumberValidityChecker(60, seedRoom, bookingRepo);
 
-        assertTrue(authenticator.isValidRoomNumber(validBooking));
+        assertTrue(result.isSuccess());
+        assertNotNull(result.value());
+        assertNull(result.error());
     }
 
     @Test
     public void givenRoomNumberIsGreaterThanMinimumRoomNumber_whenRoomNumberIsGreaterThanMaximumRoomNumber_thenValidRoomNumber() {
-        Booking validBooking = invalidBookingBase.toBuilder().roomNumber(40).build();
+        RoomNumberResult result = authenticator.roomNumberValidityChecker(45, seedRoom, bookingRepo);
 
-        assertTrue(authenticator.isValidRoomNumber(validBooking));
+        assertTrue(result.isSuccess());
+        assertNotNull(result.value());
     }
 
     @Test
-    public void whenValidRoomTypeEntered_thenValidRoomType() {
-        assertTrue(authenticator.isValidRoomType(seedBooking.room().type(), roomTypeRepo));
+    public void whenValidRoomTypeEntered_thenReturnValidRoom() {
+        assertTrue(authenticator.isValidRoom("Deluxe", roomTypeRepo));
     }
 
     @Test
     public void whenInvalidRoomTypeEntered_thenInvalid() {
-        Booking invalidBooking = seedBooking.toBuilder().room(seedRoom.toBuilder().type("delucks").build()).build();
-
-        assertFalse(authenticator.isValidRoomType(invalidBooking.room().type(), roomTypeRepo));
+        assertFalse(authenticator.isValidRoom("Delucks", roomTypeRepo));
     }
 }

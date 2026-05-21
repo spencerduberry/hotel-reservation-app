@@ -1,4 +1,6 @@
 package org.example;
+import androidx.annotation.Nullable;
+
 import com.google.auto.value.AutoValue;
 
 @AutoValue
@@ -12,11 +14,11 @@ public abstract class Booking {
 
 	public static BookingBuilder builder() {
 		return new AutoValue_Booking.Builder()
-				.firstName(null)
-				.lastName(null)
+				.firstName("")
+				.lastName("")
 				.lengthOfStay(0)
 				.roomNumber(0)
-				.room(null);
+				.room(Room.EMPTY);
 	}
 
 	public abstract BookingBuilder toBuilder();
