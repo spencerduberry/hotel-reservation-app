@@ -1,9 +1,9 @@
-package org.example;
+package io.github.spencerduberry.hotelreservation.booking;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class InMemoryBookingRepository implements BookingRepository{
+public class InMemoryBookingRepository implements BookingRepository {
 
     List<Booking> bookings = new ArrayList<>();
     public void addBooking(Booking newBooking) {

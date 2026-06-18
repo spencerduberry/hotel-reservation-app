@@ -2,16 +2,16 @@
 //
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 //
-//import org.example.FakeScannerCustomInput;
-//import org.example.InMemoryRoomTypeRepository;
-//import org.example.RoomService;
+//import example.io.FakeScannerCustomInput;
+//import example.io.InMemoryRoomTypeRepository;
+//import example.io.RoomService;
 //import org.junit.jupiter.api.Test;
 //import org.mockito.Mock;
 //import org.mockito.junit.MockitoJUnitRunner;
 //
 //@RunWith(MockitoJUnitRunner.class)
 //public class RoomServiceTest {
-//    org.example.FakeScannerCustomInput fakeInput = new FakeScannerCustomInput();
+//    example.io.FakeScannerCustomInput fakeInput = new FakeScannerCustomInput();
 //    @Mock
 //    InMemoryRoomTypeRepository mockRepo = new InMemoryRoomTypeRepository();
 //    RoomService service = new RoomService(fakeInput, mockRepo);

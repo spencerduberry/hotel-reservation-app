@@ -1,7 +1,7 @@
-package org.example;
-import androidx.annotation.Nullable;
+package io.github.spencerduberry.hotelreservation.booking;
 
 import com.google.auto.value.AutoValue;
+import io.github.spencerduberry.hotelreservation.room.Room;
 
 @AutoValue
 public abstract class Booking {

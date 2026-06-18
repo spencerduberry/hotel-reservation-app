@@ -1,4 +1,4 @@
-package org.example;
+package io.github.spencerduberry.hotelreservation.utils;
 
 public interface ConfigurableTestInput {
     void enqueueInput(String value);

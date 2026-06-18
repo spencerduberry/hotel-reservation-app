@@ -1,6 +1,5 @@
-package org.example;
+package io.github.spencerduberry.hotelreservation.room;
 import com.google.auto.value.AutoValue;
-
 
 @AutoValue
 public abstract class Room {

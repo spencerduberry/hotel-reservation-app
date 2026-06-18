@@ -1,4 +1,4 @@
-package org.example;
+package io.github.spencerduberry.hotelreservation.booking;
 
 import java.util.List;
 
