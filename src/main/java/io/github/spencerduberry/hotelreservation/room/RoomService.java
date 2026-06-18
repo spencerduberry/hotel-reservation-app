@@ -45,11 +45,13 @@ public class RoomService {
                 "The number must be a positive integer. Please try again.",
                 val -> val >= 0);
 
+        Bed newBed = new Bed("placeholder");
+
         Room newRoom = Room.builder().type(type)
                 .description(description)
                 .minRoomNumber(minRoomNumber)
                 .maxRoomNumber(maxRoomNumber)
-                .bedType(bedType)
+                .bedType(newBed)
                 .roomTypeTotal(roomTypeTotal)
                 .rate(rate)
                 .build();

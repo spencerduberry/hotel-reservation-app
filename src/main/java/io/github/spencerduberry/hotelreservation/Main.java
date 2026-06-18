@@ -4,6 +4,7 @@ import io.github.spencerduberry.hotelreservation.booking.BookingAuthenticator;
 import io.github.spencerduberry.hotelreservation.booking.BookingRepository;
 import io.github.spencerduberry.hotelreservation.booking.BookingService;
 import io.github.spencerduberry.hotelreservation.booking.InMemoryBookingRepository;
+import io.github.spencerduberry.hotelreservation.room.Bed;
 import io.github.spencerduberry.hotelreservation.room.InMemoryRoomTypeRepository;
 import io.github.spencerduberry.hotelreservation.room.Room;
 import io.github.spencerduberry.hotelreservation.room.RoomService;
@@ -22,12 +23,14 @@ public class Main {
 		RoomService roomService = new RoomService(input, roomRepo);
 		BookingService bookingService = new BookingService(input, bookingRepo, authenticator, roomRepo);
 
+		Bed seedBed = new Bed("raggedy");
+
 		Room seedRoom = Room.builder()
 				.type("deluxe")
 				.description("juicy")
 				.minRoomNumber(1)
 				.maxRoomNumber(60)
-				.bedType("raggedy")
+				.bedType(seedBed)
 				.roomTypeTotal(50)
 				.rate(60)
 				.build();

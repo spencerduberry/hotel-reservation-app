@@ -8,18 +8,20 @@ public abstract class Room {
 	public abstract String description();
 	public abstract int minRoomNumber();
 	public abstract int maxRoomNumber();
-	public abstract String bedType();
+	public abstract Bed bedType();
 	public abstract int roomTypeTotal();
 	public abstract int rate();
     public abstract RoomBuilder toBuilder();
 
     public static RoomBuilder builder() {
+        Bed emptyBed = new Bed("");
+
         return new AutoValue_Room.Builder()
                 .type("")
                 .description("")
                 .minRoomNumber(0)
                 .maxRoomNumber(0)
-                .bedType("")
+                .bedType(emptyBed)
                 .roomTypeTotal(0)
                 .rate(0);
     }
@@ -30,7 +32,7 @@ public abstract class Room {
         public abstract RoomBuilder description(String value);
         public abstract RoomBuilder minRoomNumber(int value);
         public abstract RoomBuilder maxRoomNumber(int value);
-        public abstract RoomBuilder bedType(String value);
+        public abstract RoomBuilder bedType(Bed value);
         public abstract RoomBuilder roomTypeTotal(int value);
         public abstract RoomBuilder rate(int value);
         public abstract Room build();

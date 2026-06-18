@@ -5,6 +5,7 @@
 plugins {
     id 'application'
     id 'java'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 repositories {
@@ -29,6 +30,7 @@ dependencies {
     // Compile & Annotation Processors
     compileOnly 'com.google.auto.value:auto-value-annotations:1.11.0'
     annotationProcessor 'com.google.auto.value:auto-value:1.11.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 application {
@@ -37,4 +39,7 @@ application {
 
 test {
     useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(8)
 }
