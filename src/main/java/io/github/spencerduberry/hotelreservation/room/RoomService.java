@@ -1,7 +1,9 @@
-package org.example;
+package io.github.spencerduberry.hotelreservation.room;
 
 
-import static org.example.Utils.*;
+import static io.github.spencerduberry.hotelreservation.utils.Utils.*;
+
+import io.github.spencerduberry.hotelreservation.utils.CustomInput;
 
 public class RoomService {
     private final CustomInput inputSource;

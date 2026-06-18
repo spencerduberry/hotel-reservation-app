@@ -1,4 +1,4 @@
-package org.example;
+package io.github.spencerduberry.hotelreservation.utils;
 
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,7 +8,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.InputMismatchException;
 
-import org.example.ScannerCustomInput;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

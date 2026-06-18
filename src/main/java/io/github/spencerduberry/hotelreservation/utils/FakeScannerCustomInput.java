@@ -1,4 +1,4 @@
-package org.example;
+package io.github.spencerduberry.hotelreservation.utils;
 
 import java.util.LinkedList;
 import java.util.Queue;

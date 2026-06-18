@@ -1,8 +1,11 @@
-package org.example;
+package io.github.spencerduberry.hotelreservation.booking;
 
-import static org.example.BookingService.*;
-import static org.example.BookingService.RoomNumberResult.*;
-import static org.example.BookingService.RoomNumberResult.ErrorType.*;
+import static io.github.spencerduberry.hotelreservation.booking.BookingService.*;
+import static io.github.spencerduberry.hotelreservation.booking.BookingService.RoomNumberResult.*;
+import static io.github.spencerduberry.hotelreservation.booking.BookingService.RoomNumberResult.ErrorType.*;
+
+import io.github.spencerduberry.hotelreservation.room.Room;
+import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository;
 
 public class BookingAuthenticator {
     public boolean isValidRoom(String roomName, RoomTypeRepository roomRepo) {

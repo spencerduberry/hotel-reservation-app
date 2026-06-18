@@ -1,13 +1,12 @@
-package org.example;
+package io.github.spencerduberry.hotelreservation.booking;
 
-import static org.example.Utils.getValidInt;
+import static io.github.spencerduberry.hotelreservation.utils.Utils.getValidInt;
 
 import androidx.annotation.Nullable;
-
 import com.google.auto.value.AutoValue;
-
-import java.util.List;
-import java.util.Map;
+import io.github.spencerduberry.hotelreservation.utils.CustomInput;
+import io.github.spencerduberry.hotelreservation.room.Room;
+import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository;
 
 public class BookingService {
 

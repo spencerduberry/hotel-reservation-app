@@ -1,4 +1,15 @@
-package org.example;
+package io.github.spencerduberry.hotelreservation;
+
+import io.github.spencerduberry.hotelreservation.booking.BookingAuthenticator;
+import io.github.spencerduberry.hotelreservation.booking.BookingRepository;
+import io.github.spencerduberry.hotelreservation.booking.BookingService;
+import io.github.spencerduberry.hotelreservation.booking.InMemoryBookingRepository;
+import io.github.spencerduberry.hotelreservation.room.InMemoryRoomTypeRepository;
+import io.github.spencerduberry.hotelreservation.room.Room;
+import io.github.spencerduberry.hotelreservation.room.RoomService;
+import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository;
+import io.github.spencerduberry.hotelreservation.utils.CustomInput;
+import io.github.spencerduberry.hotelreservation.utils.ScannerCustomInput;
 
 public class Main {
 

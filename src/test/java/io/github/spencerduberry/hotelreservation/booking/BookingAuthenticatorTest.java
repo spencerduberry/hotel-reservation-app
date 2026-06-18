@@ -1,17 +1,19 @@
-package org.example;
+package io.github.spencerduberry.hotelreservation.booking;
 
-import static org.example.BookingService.*;
-import static org.example.BookingService.RoomNumberResult.*;
-import static org.example.BookingService.RoomNumberResult.ErrorType.*;
+import static io.github.spencerduberry.hotelreservation.booking.BookingService.*;
+import static io.github.spencerduberry.hotelreservation.booking.BookingService.RoomNumberResult.ErrorType.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import io.github.spencerduberry.hotelreservation.room.InMemoryRoomTypeRepository;
+import io.github.spencerduberry.hotelreservation.room.Room;
+import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository;
 
 public class BookingAuthenticatorTest {
     BookingRepository bookingRepo;
