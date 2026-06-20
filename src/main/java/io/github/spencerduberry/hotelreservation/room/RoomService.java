@@ -3,6 +3,7 @@ package io.github.spencerduberry.hotelreservation.room;
 
 import static io.github.spencerduberry.hotelreservation.utils.Utils.*;
 
+import io.github.spencerduberry.hotelreservation.bed.Bed;
 import io.github.spencerduberry.hotelreservation.utils.CustomInput;
 
 public class RoomService {

@@ -1,10 +1,13 @@
 package io.github.spencerduberry.hotelreservation;
 
+import java.util.List;
+
+import io.github.spencerduberry.hotelreservation.bed.InMemoryBedTypeRepository;
 import io.github.spencerduberry.hotelreservation.booking.BookingAuthenticator;
 import io.github.spencerduberry.hotelreservation.booking.BookingRepository;
 import io.github.spencerduberry.hotelreservation.booking.BookingService;
 import io.github.spencerduberry.hotelreservation.booking.InMemoryBookingRepository;
-import io.github.spencerduberry.hotelreservation.room.Bed;
+import io.github.spencerduberry.hotelreservation.bed.Bed;
 import io.github.spencerduberry.hotelreservation.room.InMemoryRoomTypeRepository;
 import io.github.spencerduberry.hotelreservation.room.Room;
 import io.github.spencerduberry.hotelreservation.room.RoomService;
@@ -23,14 +26,22 @@ public class Main {
 		RoomService roomService = new RoomService(input, roomRepo);
 		BookingService bookingService = new BookingService(input, bookingRepo, authenticator, roomRepo);
 
-		Bed seedBed = new Bed("raggedy");
+		Bed seedBed1 = new Bed("Single");
+		Bed seedBed2 = new Bed("Double");
+		Bed seedBed3 = new Bed("King");
+
+		InMemoryBedTypeRepository bedRepo = new InMemoryBedTypeRepository();
+
+		bedRepo.addBed(seedBed1);
+		bedRepo.addBed(seedBed2);
+		bedRepo.addBed(seedBed3);
 
 		Room seedRoom = Room.builder()
 				.type("deluxe")
 				.description("juicy")
 				.minRoomNumber(1)
 				.maxRoomNumber(60)
-				.bedType(seedBed)
+				.bedType(seedBed1)
 				.roomTypeTotal(50)
 				.rate(60)
 				.build();
@@ -49,7 +60,9 @@ public class Main {
 			System.out.println ("7: Delete room type");
 			System.out.println ("8: Inspect room details");
 			System.out.println ("9: Show all available room types");
-			System.out.println ("10: Close program");
+			System.out.println ("10: Add new bed type");
+			System.out.println ("11: Delete bed type");
+			System.out.println ("12: Close program");
 
 			System.out.println ("please select an operation");
 			choice= input.inputInt();
@@ -79,11 +92,16 @@ public class Main {
 				break;
 			case 9:
 				System.out.println(roomRepo.getAll());
+				break;
+//			case 10:
+//				break;
+//			case 11:
+//				break;
 
 			default:
-				if(choice!=10) System.out.println ("Unknown option");
+				if(choice!=12) System.out.println ("Unknown option");
 			}
-		} while (choice !=10);
+		} while (choice !=12);
 	}
 
 //	static class LastNameComparator implements Comparator<Booking>

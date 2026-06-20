@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import io.github.spencerduberry.hotelreservation.room.Bed;
+import io.github.spencerduberry.hotelreservation.bed.Bed;
 import io.github.spencerduberry.hotelreservation.room.InMemoryRoomTypeRepository;
 import io.github.spencerduberry.hotelreservation.room.Room;
 import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository;

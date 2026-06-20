@@ -31,6 +31,7 @@ dependencies {
     compileOnly 'com.google.auto.value:auto-value-annotations:1.11.0'
     annotationProcessor 'com.google.auto.value:auto-value:1.11.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
 }
 
 application {
@@ -40,6 +41,12 @@ application {
 test {
     useJUnitPlatform()
 }
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(17)
 }

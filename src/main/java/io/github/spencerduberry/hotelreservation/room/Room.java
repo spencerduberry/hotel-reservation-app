@@ -1,6 +1,8 @@
 package io.github.spencerduberry.hotelreservation.room;
 import com.google.auto.value.AutoValue;
 
+import io.github.spencerduberry.hotelreservation.bed.Bed;
+
 @AutoValue
 public abstract class Room {
     public static final Room EMPTY = Room.builder().build();

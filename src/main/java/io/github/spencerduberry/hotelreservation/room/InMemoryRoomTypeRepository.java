@@ -2,6 +2,7 @@ package io.github.spencerduberry.hotelreservation.room;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.spencerduberry.hotelreservation.bed.Bed;
 import io.github.spencerduberry.hotelreservation.utils.CustomInput;
 
 public class InMemoryRoomTypeRepository implements RoomTypeRepository {
