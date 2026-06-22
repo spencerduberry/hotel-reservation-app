@@ -1,5 +1,7 @@
 package io.github.spencerduberry.hotelreservation.bed
 
+import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.ValidationErrorPhase
+
 fun pureBedReducer(
     currentState: AddBedViewState,
     input: String,
@@ -11,13 +13,13 @@ fun pureBedReducer(
     return when {
         //return errors when error
         trimmedInput.isEmpty() ->
-            AddBedViewState.ValidationErrorPhase(input, "Bed name cannot be empty.")
+            ValidationErrorPhase(input, "Bed name cannot be empty.")
 
         trimmedInput.length > 20 ->
-            AddBedViewState.ValidationErrorPhase(input, "Bed name cannot exceed 20 characters.")
+            ValidationErrorPhase(input, "Bed name cannot exceed 20 characters.")
 
         existingBeds.any { it.bedType.equals(trimmedInput, ignoreCase = true) } ->
-            AddBedViewState.ValidationErrorPhase(
+            ValidationErrorPhase(
                 input,
                 "A bed type named '$trimmedInput' already exists."
             )

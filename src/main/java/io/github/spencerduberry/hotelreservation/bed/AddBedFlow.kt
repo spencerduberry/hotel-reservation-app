@@ -1,12 +1,13 @@
 package io.github.spencerduberry.hotelreservation.bed
 
+import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.InputNamePhase
+import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.SuccessPhase
 import io.github.spencerduberry.hotelreservation.utils.CustomInput
-import jdk.jfr.internal.OldObjectSample.emit
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.scan
 import kotlinx.coroutines.flow.takeWhile
 
-class AddBedWorkflow(private val repository: BedTypeRepository) {
+class AddBedFlow(private val repository: BedTypeRepository) {
 
     suspend fun run(input: CustomInput) {
         //loop will catch user input, push down the pipe, then wait until next input
@@ -17,19 +18,19 @@ class AddBedWorkflow(private val repository: BedTypeRepository) {
             }
         }
         //renders UI prompt before stream begins
-        renderBedUi(AddBedViewState.InputNamePhase)
+        renderBedUi(InputNamePhase)
 
         userInputFlow
             //takes emitted item, previous state and current repo list, and adds to reducer function
-            .scan<String, AddBedViewState>(AddBedViewState.InputNamePhase) {previousState, input ->
+            .scan<String, AddBedViewState>(InputNamePhase) { previousState, input ->
                 pureBedReducer(previousState, input, repository.getAll())
             }
-            // error states are pushed into the flow. Success tate terminates it
-            .takeWhile { state -> state !is AddBedViewState.SuccessPhase }
+            // error states are pushed into the flow. Success state terminates it
+            .takeWhile { state -> state !is SuccessPhase }
             //UI updated onSuccess
             .collect { state -> renderBedUi(state)
 
-            if (state is AddBedViewState.SuccessPhase) {
+            if (state is SuccessPhase) {
                 repository.addBed(state.newBed)
             }}
     }
