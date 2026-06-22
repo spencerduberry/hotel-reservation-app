@@ -23,7 +23,7 @@ class AddBedFlow(private val repository: BedTypeRepository) {
         userInputFlow
             //takes emitted item, previous state and current repo list, and adds to reducer function
             .scan<String, AddBedViewState>(InputNamePhase) { previousState, input ->
-                pureBedReducer(previousState, input, repository.getAll())
+                evaluateBedInput(previousState, input, repository.getAll())
             }
             // error states are pushed into the flow. Success state terminates it
             .takeWhile { state -> state !is SuccessPhase }

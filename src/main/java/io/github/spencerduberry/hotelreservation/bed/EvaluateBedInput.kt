@@ -1,8 +1,9 @@
 package io.github.spencerduberry.hotelreservation.bed
 
+import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.SuccessPhase
 import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.ValidationErrorPhase
 
-fun pureBedReducer(
+fun evaluateBedInput(
     currentState: AddBedViewState,
     input: String,
     existingBeds: List<Bed>
@@ -21,9 +22,9 @@ fun pureBedReducer(
         existingBeds.any { it.bedType.equals(trimmedInput, ignoreCase = true) } ->
             ValidationErrorPhase(
                 input,
-                "A bed type named '$trimmedInput' already exists."
+                "A bed type with that name already exists."
             )
         //or success
-        else -> AddBedViewState.SuccessPhase(Bed(trimmedInput))
+        else -> SuccessPhase(Bed(trimmedInput))
     }
 }
