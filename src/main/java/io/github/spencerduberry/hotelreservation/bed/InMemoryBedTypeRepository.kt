@@ -13,6 +13,6 @@ class InMemoryBedTypeRepository(initialBeds: List<Bed> = listOf()) : BedTypeRepo
     }
 
     override fun getAll(): List<Bed> {
-        TODO("Not yet implemented")
+        return bedTypes
     }
 }
