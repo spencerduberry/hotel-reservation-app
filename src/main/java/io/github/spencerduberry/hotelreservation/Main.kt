@@ -12,11 +12,11 @@ import io.github.spencerduberry.hotelreservation.room.Room
 import io.github.spencerduberry.hotelreservation.room.RoomService
 import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository
 import io.github.spencerduberry.hotelreservation.utils.CustomInput
-import io.github.spencerduberry.hotelreservation.utils.ScannerCustomInput
+import io.github.spencerduberry.hotelreservation.utils.KotlinCustomInput
 
 
 suspend fun main(args: Array<String>) {
-    val input: CustomInput = ScannerCustomInput()
+    val input: CustomInput = KotlinCustomInput()
 
     val bedRepo = InMemoryBedTypeRepository()
     val seedBed1 = Bed("Single")

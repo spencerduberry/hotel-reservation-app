@@ -34,7 +34,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'org.example.Tester'
+    mainClass = 'io.github.spencerduberry.hotelreservation.MainKt'
 }
 
 test {
