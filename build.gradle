@@ -18,6 +18,7 @@ dependencies {
     // JUnit 5 Setup
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+    testImplementation libs.junit
 
     // FIX: Required for Gradle 9.1+ to execute JUnit Platform tests
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.0'

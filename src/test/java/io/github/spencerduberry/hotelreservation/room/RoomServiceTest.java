@@ -1,17 +1,19 @@
-//package org.example;
+//package io.github.spencerduberry.hotelreservation.room;
 //
-//import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.Assert.assertEquals;
 //
-//import example.io.FakeScannerCustomInput;
-//import example.io.InMemoryRoomTypeRepository;
-//import example.io.RoomService;
 //import org.junit.jupiter.api.Test;
+//import org.junit.runner.RunWith;
 //import org.mockito.Mock;
 //import org.mockito.junit.MockitoJUnitRunner;
 //
+//import io.github.spencerduberry.hotelreservation.room.InMemoryRoomTypeRepository;
+//import io.github.spencerduberry.hotelreservation.room.RoomService;
+//import io.github.spencerduberry.hotelreservation.utils.FakeScannerCustomInput;
+//
 //@RunWith(MockitoJUnitRunner.class)
 //public class RoomServiceTest {
-//    example.io.FakeScannerCustomInput fakeInput = new FakeScannerCustomInput();
+//    FakeScannerCustomInput fakeInput = new FakeScannerCustomInput();
 //    @Mock
 //    InMemoryRoomTypeRepository mockRepo = new InMemoryRoomTypeRepository();
 //    RoomService service = new RoomService(fakeInput, mockRepo);

@@ -14,7 +14,7 @@ public class FakeScannerCustomInput implements CustomInput, ConfigurableTestInpu
         }
         return nextInput;
     }
-    
+
     public int inputInt(){
         String nextInput = inputQueue.poll();
         if (nextInput == null) {
@@ -22,6 +22,12 @@ public class FakeScannerCustomInput implements CustomInput, ConfigurableTestInpu
         }
         return Integer.parseInt(nextInput);
     }
+
+    @Override
+    public void printMessage(String message) {
+        System.out.println(message);
+    }
+
     @Override
     public void enqueueInput(String value) {
         this.inputQueue.offer(value);

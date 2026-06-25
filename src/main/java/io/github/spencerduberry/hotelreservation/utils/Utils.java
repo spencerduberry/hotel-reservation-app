@@ -9,18 +9,16 @@ public class Utils {
         int input = 0;
 
         while (!valid) {
-            System.out.println(prompt);
+            inputSource.printMessage(prompt);
             input = inputSource.inputInt();
 
             if (condition.test(input)) {
                 valid = true;
             }
             else {
-                System.out.println(errorMessage);
+                inputSource.printMessage(errorMessage);
             }}
 
         return input;
         }
-
-
     }
