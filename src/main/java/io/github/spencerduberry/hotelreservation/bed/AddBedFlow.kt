@@ -14,20 +14,21 @@ class AddBedFlow(private val repository: BedTypeRepository) {
     suspend fun run(input: CustomInput) {
         //loop will catch user input, push down the pipe, then wait until next input
         val userInputFlow = flow {
+            //on until explicitly switched off
             while (true) {
                 val nextLine = input.inputString()
                 emit(nextLine)
             }
         }
-        //renders UI prompt before stream begins
-        renderBedUi(InputNamePhase)
 
         userInputFlow
+            /*takes current state and user input string and feeds into reducer. Current state is
+            initially InputNamePhase but will be error state on the second run unless success*/
             .scan<String, AddBedViewState>(InputNamePhase) {
                 previousState, text ->
                 evaluateBedInput(previousState, text, repository.getAll())
             }
-            .drop(1)
+            //emissions stop once the condition evaluates to false
             .transformWhile { state ->
                 emit(state)
                 state !is SuccessPhase
