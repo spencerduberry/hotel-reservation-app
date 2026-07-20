@@ -1,7 +1,10 @@
 package io.github.spencerduberry.hotelreservation.bed
 
 import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.SuccessPhase
-import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.ValidationErrorPhase
+import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.ErrorPhase
+import io.github.spencerduberry.hotelreservation.bed.BedValidationError.AlreadyExists
+import io.github.spencerduberry.hotelreservation.bed.BedValidationError.Empty
+import io.github.spencerduberry.hotelreservation.bed.BedValidationError.TooLong
 
 fun evaluateBedInput(
     currentState: AddBedViewState,
@@ -15,15 +18,14 @@ fun evaluateBedInput(
     return when {
         //return errors when error
         trimmedInput.isEmpty() ->
-            ValidationErrorPhase(input, "Bed name cannot be empty.")
+            ErrorPhase(Empty)
 
         trimmedInput.length > 20 ->
-            ValidationErrorPhase(input, "Bed name cannot exceed 20 characters.")
+            ErrorPhase(TooLong(trimmedInput.length))
 
         existingBeds.any { it.bedType.equals(trimmedInput, ignoreCase = true) } ->
-            ValidationErrorPhase(
-                input,
-                "A bed type with that name already exists."
+            ErrorPhase(
+                AlreadyExists(trimmedInput)
             )
         //or success
         else -> SuccessPhase(Bed(trimmedInput))

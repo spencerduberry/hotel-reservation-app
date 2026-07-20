@@ -2,7 +2,8 @@ package io.github.spencerduberry.hotelreservation.bed
 
 import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.InputNamePhase
 import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.SuccessPhase
-import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.ValidationErrorPhase
+import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.ErrorPhase
+import io.github.spencerduberry.hotelreservation.bed.BedValidationError.Empty
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Test
@@ -12,35 +13,31 @@ class EvaluateBedInputTest {
     val existingBeds: List<Bed> = listOf(bed)
 
     @Test
-    fun `when empty String received then return empty validation error`() {
+    fun `when empty String then return empty validation error`() {
         val result = evaluateBedInput(InputNamePhase, "", existingBeds)
-        val errorState = assertInstanceOf(ValidationErrorPhase::class.java, result)
 
-        assertEquals("Bed name cannot be empty.", errorState.errorReason)
+        assertEquals(ErrorPhase(Empty), result)
     }
 
     @Test
-    fun `when String longer than 20 characters received the return length error`() {
+    fun `when String longer than 20 characters then return length error`() {
         val result = evaluateBedInput(InputNamePhase, "123456789123456789123", existingBeds)
-        val errorState = assertInstanceOf(ValidationErrorPhase::class.java, result)
 
-        assertEquals("Bed name cannot exceed 20 characters.", errorState.errorReason)
+        assertEquals(ErrorPhase(BedValidationError.TooLong(21)), result)
     }
 
     @Test
-    fun `when bed name received matches existing bed name then return existing bed error`() {
+    fun `when bed name matches existing bed name then return existing bed error`() {
         val result = evaluateBedInput(InputNamePhase, "Deluxe", existingBeds)
-        val errorState = assertInstanceOf(ValidationErrorPhase::class.java, result)
 
-        assertEquals("A bed type with that name already exists.", errorState.errorReason)
+        assertEquals(ErrorPhase(BedValidationError.AlreadyExists("Deluxe")), result)
     }
 
     @Test
-    fun `when bed name received matches existing bed name and case is different then return existing bed error`() {
+    fun `when bed name matches existing bed name and case is different then return existing bed error`() {
         val result = evaluateBedInput(InputNamePhase, "deluxe", existingBeds)
-        val errorState = assertInstanceOf(ValidationErrorPhase::class.java, result)
 
-        assertEquals("A bed type with that name already exists.", errorState.errorReason)
+        assertEquals(ErrorPhase(BedValidationError.AlreadyExists("deluxe")), result)
     }
 
     @Test
