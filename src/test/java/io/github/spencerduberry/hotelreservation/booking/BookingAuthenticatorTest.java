@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import io.github.spencerduberry.hotelreservation.bed.Bed;
 import io.github.spencerduberry.hotelreservation.room.InMemoryRoomTypeRepository;
 import io.github.spencerduberry.hotelreservation.room.Room;
 import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository;
@@ -29,12 +30,14 @@ public class BookingAuthenticatorTest {
 
         roomTypeRepo = new InMemoryRoomTypeRepository();
 
+        Bed testBed = new Bed("raggedy");
+
         seedRoom = Room.builder()
                 .type("deluxe")
                 .description("juicy")
                 .minRoomNumber(1)
                 .maxRoomNumber(60)
-                .bedType("raggedy")
+                .bedType(testBed)
                 .roomTypeTotal(50)
                 .rate(60)
                 .build();

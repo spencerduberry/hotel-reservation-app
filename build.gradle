@@ -5,37 +5,55 @@
 plugins {
     id 'application'
     id 'java'
+    id 'org.jetbrains.kotlin.jvm'
 }
 
 repositories {
-    google()       // <-- ADD THIS LINE ABOVE MAVEN CENTRAL
+    google()
     mavenCentral()
 }
 
 dependencies {
     implementation libs.annotation.jvm
 
-    // JUnit 5 Setup
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
     testImplementation libs.junit
 
-    // FIX: Required for Gradle 9.1+ to execute JUnit Platform tests
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.0'
 
-    // Mockito Core & Mockito Inline (allows mocking final classes/Kotlin objects)
     testImplementation 'org.mockito:mockito-core:5.11.0'
     testImplementation 'org.mockito:mockito-inline:5.2.0'
 
-    // Compile & Annotation Processors
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.11.0'
+
     compileOnly 'com.google.auto.value:auto-value-annotations:1.11.0'
     annotationProcessor 'com.google.auto.value:auto-value:1.11.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0'
 }
 
 application {
-    mainClass = 'org.example.Tester'
+    mainClass = 'io.github.spencerduberry.hotelreservation.MainKt'
+    tasks.named('run') {
+        standardInput = System.in
+    }
 }
 
 test {
     useJUnitPlatform()
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
+}
+
+tasks.named('compileJava') {
+    dependsOn tasks.named('compileKotlin')
 }
