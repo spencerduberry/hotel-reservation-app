@@ -6,7 +6,8 @@ import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.ValidationE
 fun evaluateBedInput(
     currentState: AddBedViewState,
     input: String,
-    existingBeds: List<Bed>
+    existingBeds: List<Bed>,
+//    isRoomAvailable: (List<Bed>) -> Boolean,
 ): AddBedViewState {
     //handle white space
     val trimmedInput = input.trim()

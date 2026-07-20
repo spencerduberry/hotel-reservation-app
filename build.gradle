@@ -35,6 +35,9 @@ dependencies {
 
 application {
     mainClass = 'io.github.spencerduberry.hotelreservation.MainKt'
+    tasks.named('run') {
+        standardInput = System.in
+    }
 }
 
 test {
@@ -48,4 +51,8 @@ java {
 
 kotlin {
     jvmToolchain(17)
+}
+
+tasks.named('compileJava') {
+    dependsOn tasks.named('compileKotlin')
 }
