@@ -10,7 +10,7 @@ import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository;
 public class BookingAuthenticator {
     public boolean isValidRoom(String roomName, RoomTypeRepository roomRepo) {
 
-        for (Room room : roomRepo.getAll()) {
+        for (Room room : roomRepo.getAll().values()) {
             if (room.type().equalsIgnoreCase(roomName)) {
                 return true;
             }

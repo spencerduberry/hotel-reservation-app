@@ -47,7 +47,7 @@ public class BookingService {
             validRoomType = authenticator.isValidRoom(roomName, roomRepo);
         }
 
-        for (Room aRoom: roomRepo.getAll()) {
+        for (Room aRoom: roomRepo.getAll().values()) {
             if (aRoom.type().equalsIgnoreCase(roomName)) {
                 room = aRoom;
             }

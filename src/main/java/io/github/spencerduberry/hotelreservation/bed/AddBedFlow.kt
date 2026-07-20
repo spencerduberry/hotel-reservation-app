@@ -3,10 +3,8 @@ package io.github.spencerduberry.hotelreservation.bed
 import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.InputNamePhase
 import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.SuccessPhase
 import io.github.spencerduberry.hotelreservation.utils.CustomInput
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.scan
-import kotlinx.coroutines.flow.takeWhile
 import kotlinx.coroutines.flow.transformWhile
 
 class AddBedFlow(private val repository: BedTypeRepository) {

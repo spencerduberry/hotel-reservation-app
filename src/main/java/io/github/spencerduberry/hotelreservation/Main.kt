@@ -8,6 +8,7 @@ import io.github.spencerduberry.hotelreservation.booking.BookingRepository
 import io.github.spencerduberry.hotelreservation.booking.BookingService
 import io.github.spencerduberry.hotelreservation.booking.InMemoryBookingRepository
 import io.github.spencerduberry.hotelreservation.room.InMemoryRoomTypeRepository
+import io.github.spencerduberry.hotelreservation.room.RemoveRoomFlow
 import io.github.spencerduberry.hotelreservation.room.Room
 import io.github.spencerduberry.hotelreservation.room.RoomService
 import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository
@@ -39,6 +40,7 @@ suspend fun main(args: Array<String>) {
         .rate(60)
         .build()
     roomRepo.addRoom(seedRoom)
+    val removeRoomFlow = RemoveRoomFlow(roomRepo)
 
     val bookingRepo: BookingRepository = InMemoryBookingRepository()
     val authenticator = BookingAuthenticator()
@@ -65,7 +67,7 @@ suspend fun main(args: Array<String>) {
         when (choice) {
             1 -> bookingService.addBooking()
             6 -> roomService.addRoomType()
-            7 -> roomRepo.removeRoom(input)
+            7 -> removeRoomFlow.run(input)
             9 -> println(roomRepo.getAll())
             10 -> addBedFlow.run(input)
             else -> if (choice != 12) println("Unknown option")
