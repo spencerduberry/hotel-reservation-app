@@ -15,7 +15,7 @@ fun evaluateRoomRemovalInput(
     return when {
         trimmedInput !in existingRooms.keys ->
             ErrorPhase(RoomRemovalError.InvalidRoomNumber)
-
+        //could throw assertion error instead of !!
         else -> SuccessPhase(existingRooms[trimmedInput]!!)
     }
 }
