@@ -1,7 +1,6 @@
-package io.github.spencerduberry.hotelreservation.bed
+package io.github.spencerduberry.hotelreservation.bed.ai
 
-import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.InputNamePhase
-import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.SuccessPhase
+import io.github.spencerduberry.hotelreservation.bed.BedTypeRepository
 import io.github.spencerduberry.hotelreservation.utils.CustomInput
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.scan
@@ -22,18 +21,18 @@ class AddBedFlow(private val repository: BedTypeRepository) {
         userInputFlow
             /*takes current state and user input string and feeds into reducer. Current state is
             initially InputNamePhase but will be error state on the second run unless success*/
-            .scan<String, AddBedViewState>(InputNamePhase) {
+            .scan<String, AddBedViewState>(AddBedViewState.InputNamePhase) {
                 previousState, text ->
                 evaluateBedInput(previousState, text, repository.getAll())
             }
             //emissions stop once the condition evaluates to false
             .transformWhile { state ->
                 emit(state)
-                state !is SuccessPhase
+                state !is AddBedViewState.SuccessPhase
             }
             .collect { state ->
                 renderBedUi(state)
-                if (state is SuccessPhase) {
+                if (state is AddBedViewState.SuccessPhase) {
                     repository.addBed(state.newBed)
                 }
             }

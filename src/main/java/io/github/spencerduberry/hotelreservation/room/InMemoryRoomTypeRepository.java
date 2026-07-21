@@ -15,32 +15,20 @@ public class InMemoryRoomTypeRepository implements RoomTypeRepository {
     private void seedData() {
 
         roomTypes.add(Room.builder()
-                .type("Standard Double")
-                .description("Comfortable and budget friendly")
-                .minRoomNumber(1)
-                .maxRoomNumber(250)
+                .name("Standard Double")
                 .bedType("doubleBed")
-                .roomTypeTotal(250)
                 .rate(1000)
                 .build());
 
         roomTypes.add(Room.builder()
-                .type("Deluxe")
-                .description("Enhanced comfort and additional space")
-                .minRoomNumber(251)
-                .maxRoomNumber(500)
+                .name("Deluxe")
                 .bedType("queenBed")
-                .roomTypeTotal(250)
                 .rate(1200)
                 .build());
 
         roomTypes.add(Room.builder()
-                .type("Superior")
-                .description("Luxury and premium comfort")
-                .minRoomNumber(501)
-                .maxRoomNumber(530)
+                .name("Superior")
                 .bedType("kingBed")
-                .roomTypeTotal(30)
                 .rate(1800)
                 .build());
     }

@@ -1,8 +1,5 @@
-package io.github.spencerduberry.hotelreservation.bed
+package io.github.spencerduberry.hotelreservation.bed.ai
 
-import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.InputNamePhase
-import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.SuccessPhase
-import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.ErrorPhase
 import java.util.Locale
 import java.util.ResourceBundle
 
@@ -11,13 +8,13 @@ val bundle = ResourceBundle.getBundle("messages", Locale.getDefault())
 fun renderBedUi(state: AddBedViewState) {
     println("=== Add New Bed Type ===")
     when (state) {
-        is InputNamePhase -> {
+        is AddBedViewState.InputNamePhase -> {
             println("Please enter the name of the new bed type:")
         }
-        is ErrorPhase -> {
+        is AddBedViewState.ErrorPhase -> {
             printError(state.error)
         }
-        is SuccessPhase -> {
+        is AddBedViewState.SuccessPhase -> {
             println("Success: Created bed type: ${state.newBed}")
         }
     }

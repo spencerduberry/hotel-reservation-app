@@ -36,8 +36,7 @@ sealed interface BedState {
     }
 
     class ConfirmAddBedType(
-        override val previous: BedState,
-        override val context: BedContext
+        override val previous: BedState, override val context: BedContext
     ) : BedState {
         override fun process(input: String): BedState {
             return when {
@@ -64,12 +63,10 @@ sealed interface BedState {
     }
 
     class BedTypeAlreadyExists(
-        override val previous: BedState,
-        override val context: BedContext
+        override val previous: BedState, override val context: BedContext
     ) : BedState {
 
-        override fun process(input: String): BedState =
-            previous
+        override fun process(input: String): BedState = previous
 
         override fun ui(): String = """
             Input '${context.previousInput}' matches a bed type that already exists. 
@@ -79,11 +76,9 @@ sealed interface BedState {
     }
 
     class EmptyInput(
-        override val previous: BedState,
-        override val context: BedContext
+        override val previous: BedState, override val context: BedContext
     ) : BedState {
-        override fun process(input: String): BedState =
-            previous
+        override fun process(input: String): BedState = previous
 
         override fun ui(): String = """
             Input cannot be empty. 
@@ -92,11 +87,9 @@ sealed interface BedState {
     }
 
     class InputTooLong(
-        override val previous: BedState,
-        override val context: BedContext
+        override val previous: BedState, override val context: BedContext
     ) : BedState {
-        override fun process(input: String): BedState =
-            previous
+        override fun process(input: String): BedState = previous
 
         override fun ui(): String = """
             Input '${context.previousInput}' is longer than 20 characters.

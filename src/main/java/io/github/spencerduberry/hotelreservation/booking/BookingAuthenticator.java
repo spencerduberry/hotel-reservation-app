@@ -11,7 +11,7 @@ public class BookingAuthenticator {
     public boolean isValidRoom(String roomName, RoomTypeRepository roomRepo) {
 
         for (Room room : roomRepo.getAll().values()) {
-            if (room.type().equalsIgnoreCase(roomName)) {
+            if (room.name().equalsIgnoreCase(roomName)) {
                 return true;
             }
         }
@@ -21,12 +21,6 @@ public class BookingAuthenticator {
     }
 
     public RoomNumberResult roomNumberValidityChecker(int roomNumber, Room roomType, BookingRepository bookingRepo) {
-
-        if (roomNumber < roomType.minRoomNumber() || roomNumber > roomType.maxRoomNumber()) {
-            System.out.printf("Please choose a room number between %d and %d.%n",
-                    roomType.minRoomNumber(), roomType.maxRoomNumber());
-            return error(OUTOFRANGE);
-        }
 
         for (Booking booking : bookingRepo.getAll()) {
             if (booking.roomNumber() == roomNumber) {

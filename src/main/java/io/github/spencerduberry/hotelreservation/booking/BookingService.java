@@ -48,7 +48,7 @@ public class BookingService {
         }
 
         for (Room aRoom: roomRepo.getAll().values()) {
-            if (aRoom.type().equalsIgnoreCase(roomName)) {
+            if (aRoom.name().equalsIgnoreCase(roomName)) {
                 room = aRoom;
             }
         }
@@ -84,8 +84,6 @@ public class BookingService {
 
         public enum ErrorType {
             DOUBLEBOOKING,
-
-            OUTOFRANGE
         }
 
         static RoomNumberResult ok(Integer value) {
@@ -102,19 +100,19 @@ public class BookingService {
 
     }
 
-    public static boolean availabilityChecker(Room roomType)
-    {
-
-        if (roomType.roomTypeTotal() > 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
-    }
+//    public static boolean availabilityChecker(Room roomType)
+//    {
+//
+//        if (roomType.roomTypeTotal() > 0)
+//        {
+//            return true;
+//        }
+//        else
+//        {
+//            return false;
+//        }
+//
+//    }
 
 //    public static int getRoomNumber(Room roomType, TreeSet<Booking> set)
 //    {

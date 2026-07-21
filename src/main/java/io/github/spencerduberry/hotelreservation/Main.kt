@@ -1,6 +1,6 @@
 package io.github.spencerduberry.hotelreservation
 
-import io.github.spencerduberry.hotelreservation.bed.AddBedFlow
+import io.github.spencerduberry.hotelreservation.bed.ai.AddBedFlow
 import io.github.spencerduberry.hotelreservation.bed.BedJourney
 import io.github.spencerduberry.hotelreservation.bed.IO
 import io.github.spencerduberry.hotelreservation.bed.InMemoryBedTypeRepository
@@ -37,12 +37,8 @@ suspend fun main(args: Array<String>) {
     val roomRepo: RoomTypeRepository = InMemoryRoomTypeRepository()
     val roomService = RoomService(input, roomRepo)
     val seedRoom = Room.builder()
-        .type("deluxe")
-        .description("juicy")
-        .minRoomNumber(1)
-        .maxRoomNumber(60)
+        .name("deluxe")
         .bedType(seedBed1)
-        .roomTypeTotal(50)
         .rate(60)
         .build()
     roomRepo.addRoom(seedRoom)

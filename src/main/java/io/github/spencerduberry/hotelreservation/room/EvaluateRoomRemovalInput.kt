@@ -1,6 +1,5 @@
 package io.github.spencerduberry.hotelreservation.room
 
-import io.github.spencerduberry.hotelreservation.bed.AddBedViewState
 import io.github.spencerduberry.hotelreservation.room.RemoveRoomState.ErrorPhase
 import io.github.spencerduberry.hotelreservation.room.RemoveRoomState.SuccessPhase
 

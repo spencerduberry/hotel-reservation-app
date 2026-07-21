@@ -1,4 +1,4 @@
-package io.github.spencerduberry.hotelreservation.bed
+package io.github.spencerduberry.hotelreservation.bed.ai
 
 //all possible states of add bed operation
 sealed interface AddBedViewState {

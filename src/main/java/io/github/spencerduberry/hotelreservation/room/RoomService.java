@@ -48,12 +48,8 @@ public class RoomService {
         System.out.println("Please enter the name of the bed.");
         String newBed = inputSource.inputString();
 
-        Room newRoom = Room.builder().type(type)
-                .description(description)
-                .minRoomNumber(minRoomNumber)
-                .maxRoomNumber(maxRoomNumber)
+        Room newRoom = Room.builder().name(type)
                 .bedType(newBed)
-                .roomTypeTotal(roomTypeTotal)
                 .rate(rate)
                 .build();
 

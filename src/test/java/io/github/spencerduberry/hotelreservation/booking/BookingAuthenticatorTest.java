@@ -30,12 +30,8 @@ public class BookingAuthenticatorTest {
         roomTypeRepo = new InMemoryRoomTypeRepository();
 
         seedRoom = Room.builder()
-                .type("deluxe")
-                .description("juicy")
-                .minRoomNumber(1)
-                .maxRoomNumber(60)
+                .name("deluxe")
                 .bedType("raggedy")
-                .roomTypeTotal(50)
                 .rate(60)
                 .build();
 
@@ -72,22 +68,6 @@ public class BookingAuthenticatorTest {
     @Test
     public void whenRoomTypeAtFullCapacity_thenAvailabilityIsFalse() {
 
-    }
-
-    @Test
-    public void whenRoomNumberIsLessThanMinimumRoomNumber_thenOutOfRangeError() {
-        RoomNumberResult result = authenticator.roomNumberValidityChecker(0, seedRoom, bookingRepo);
-
-        assertEquals(OUTOFRANGE, result.error());
-        assertNull(result.value());
-    }
-
-    @Test
-    public void whenRoomNumberIsGreaterThanMaximumRoomNumber_thenInvalidRoomNumber() {
-        RoomNumberResult result = authenticator.roomNumberValidityChecker(61, seedRoom, bookingRepo);
-
-        assertEquals(OUTOFRANGE, result.error());
-        assertNull(result.value());
     }
 
     @Test

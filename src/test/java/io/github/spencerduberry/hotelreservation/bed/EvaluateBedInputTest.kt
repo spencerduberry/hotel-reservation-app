@@ -1,9 +1,11 @@
 package io.github.spencerduberry.hotelreservation.bed
 
-import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.InputNamePhase
-import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.SuccessPhase
-import io.github.spencerduberry.hotelreservation.bed.AddBedViewState.ErrorPhase
-import io.github.spencerduberry.hotelreservation.bed.BedValidationError.Empty
+import io.github.spencerduberry.hotelreservation.bed.ai.AddBedViewState.InputNamePhase
+import io.github.spencerduberry.hotelreservation.bed.ai.AddBedViewState.SuccessPhase
+import io.github.spencerduberry.hotelreservation.bed.ai.AddBedViewState.ErrorPhase
+import io.github.spencerduberry.hotelreservation.bed.ai.BedValidationError
+import io.github.spencerduberry.hotelreservation.bed.ai.BedValidationError.Empty
+import io.github.spencerduberry.hotelreservation.bed.ai.evaluateBedInput
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Test
