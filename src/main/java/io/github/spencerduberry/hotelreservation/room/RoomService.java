@@ -3,7 +3,6 @@ package io.github.spencerduberry.hotelreservation.room;
 
 import static io.github.spencerduberry.hotelreservation.utils.Utils.*;
 
-import io.github.spencerduberry.hotelreservation.bed.Bed;
 import io.github.spencerduberry.hotelreservation.utils.CustomInput;
 
 public class RoomService {
@@ -46,7 +45,8 @@ public class RoomService {
                 "The number must be a positive integer. Please try again.",
                 val -> val >= 0);
 
-        Bed newBed = new Bed("placeholder");
+        System.out.println("Please enter the name of the bed.");
+        String newBed = inputSource.inputString();
 
         Room newRoom = Room.builder().type(type)
                 .description(description)

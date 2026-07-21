@@ -9,7 +9,7 @@ import io.github.spencerduberry.hotelreservation.bed.BedValidationError.TooLong
 fun evaluateBedInput(
     currentState: AddBedViewState,
     input: String,
-    existingBeds: List<Bed>,
+    existingBeds: List<String>,
 //    isRoomAvailable: (List<Bed>) -> Boolean,
 ): AddBedViewState {
     //handle white space
@@ -23,11 +23,11 @@ fun evaluateBedInput(
         trimmedInput.length > 20 ->
             ErrorPhase(TooLong(trimmedInput.length))
 
-        existingBeds.any { it.bedType.equals(trimmedInput, ignoreCase = true) } ->
+        existingBeds.any { it.equals(trimmedInput, ignoreCase = true) } ->
             ErrorPhase(
                 AlreadyExists(trimmedInput)
             )
         //or success
-        else -> SuccessPhase(Bed(trimmedInput))
+        else -> SuccessPhase(trimmedInput)
     }
 }

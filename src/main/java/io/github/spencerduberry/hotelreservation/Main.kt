@@ -1,7 +1,6 @@
 package io.github.spencerduberry.hotelreservation
 
 import io.github.spencerduberry.hotelreservation.bed.AddBedFlow
-import io.github.spencerduberry.hotelreservation.bed.Bed
 import io.github.spencerduberry.hotelreservation.bed.InMemoryBedTypeRepository
 import io.github.spencerduberry.hotelreservation.booking.BookingAuthenticator
 import io.github.spencerduberry.hotelreservation.booking.BookingRepository
@@ -20,9 +19,9 @@ suspend fun main(args: Array<String>) {
     val input: CustomInput = KotlinCustomInput()
 
     val bedRepo = InMemoryBedTypeRepository()
-    val seedBed1 = Bed("Single")
-    val seedBed2 = Bed("Double")
-    val seedBed3 = Bed("King")
+    val seedBed1 = "Single"
+    val seedBed2 = "Double"
+    val seedBed3 = "King"
     bedRepo.addBed(seedBed1)
     bedRepo.addBed(seedBed2)
     bedRepo.addBed(seedBed3)

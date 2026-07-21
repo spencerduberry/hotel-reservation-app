@@ -1,8 +1,6 @@
 package io.github.spencerduberry.hotelreservation.room;
 import com.google.auto.value.AutoValue;
 
-import io.github.spencerduberry.hotelreservation.bed.Bed;
-
 @AutoValue
 public abstract class Room {
     public static final Room EMPTY = Room.builder().build();
@@ -10,20 +8,19 @@ public abstract class Room {
 	public abstract String description();
 	public abstract int minRoomNumber();
 	public abstract int maxRoomNumber();
-	public abstract Bed bedType();
+	public abstract String bedType();
 	public abstract int roomTypeTotal();
 	public abstract int rate();
     public abstract RoomBuilder toBuilder();
 
     public static RoomBuilder builder() {
-        Bed emptyBed = new Bed("");
 
         return new AutoValue_Room.Builder()
                 .type("")
                 .description("")
                 .minRoomNumber(0)
                 .maxRoomNumber(0)
-                .bedType(emptyBed)
+                .bedType("")
                 .roomTypeTotal(0)
                 .rate(0);
     }
@@ -34,7 +31,7 @@ public abstract class Room {
         public abstract RoomBuilder description(String value);
         public abstract RoomBuilder minRoomNumber(int value);
         public abstract RoomBuilder maxRoomNumber(int value);
-        public abstract RoomBuilder bedType(Bed value);
+        public abstract RoomBuilder bedType(String value);
         public abstract RoomBuilder roomTypeTotal(int value);
         public abstract RoomBuilder rate(int value);
         public abstract Room build();

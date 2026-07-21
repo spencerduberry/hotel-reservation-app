@@ -17,7 +17,7 @@ class AddBedFlowTest {
         workflow.run(fakeInput)
 
         val savedBeds = existingBeds.getAll()
-        assertEquals("Queen", savedBeds.first().bedType)
+        assertEquals("Queen", savedBeds.first())
     }
 
 }

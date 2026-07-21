@@ -18,7 +18,7 @@ fun renderBedUi(state: AddBedViewState) {
             printError(state.error)
         }
         is SuccessPhase -> {
-            println("Success: Created bed type: ${state.newBed.bedType}")
+            println("Success: Created bed type: ${state.newBed}")
         }
     }
 }

@@ -1,7 +1,8 @@
 package io.github.spencerduberry.hotelreservation.bed
 
 interface BedTypeRepository {
-    fun addBed(newBed: Bed);
-    fun removeBed(bed: Bed);
-    fun getAll(): List<Bed>
+    fun addBed(newBed: String);
+    fun removeBed(bed: String);
+    fun getAll(): List<String>
+    fun setAll(beds: List<String>)
 }

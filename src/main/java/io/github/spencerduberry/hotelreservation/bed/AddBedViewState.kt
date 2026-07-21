@@ -10,7 +10,7 @@ sealed interface AddBedViewState {
         val error: BedValidationError
     ) : AddBedViewState
 
-    data class SuccessPhase(val newBed: Bed) : AddBedViewState
+    data class SuccessPhase(val newBed: String) : AddBedViewState
 }
 
 sealed interface BedValidationError {

@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Assertions.assertInstanceOf
 import org.junit.jupiter.api.Test
 
 class EvaluateBedInputTest {
-    val bed = Bed("Deluxe")
-    val existingBeds: List<Bed> = listOf(bed)
+    val bed = "Deluxe"
+    val existingBeds: List<String> = listOf(bed)
 
     @Test
     fun `when empty String then return empty validation error`() {
@@ -45,7 +45,7 @@ class EvaluateBedInputTest {
         val result = evaluateBedInput(InputNamePhase, "King ", existingBeds)
         val successState = result as SuccessPhase
 
-        assertEquals("King", successState.newBed.bedType)
+        assertEquals("King", successState.newBed)
     }
 
     @Test
