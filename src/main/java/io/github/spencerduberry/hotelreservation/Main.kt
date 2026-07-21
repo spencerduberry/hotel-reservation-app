@@ -1,6 +1,8 @@
 package io.github.spencerduberry.hotelreservation
 
 import io.github.spencerduberry.hotelreservation.bed.AddBedFlow
+import io.github.spencerduberry.hotelreservation.bed.BedJourney
+import io.github.spencerduberry.hotelreservation.bed.IO
 import io.github.spencerduberry.hotelreservation.bed.InMemoryBedTypeRepository
 import io.github.spencerduberry.hotelreservation.booking.BookingAuthenticator
 import io.github.spencerduberry.hotelreservation.booking.BookingRepository
@@ -19,13 +21,18 @@ suspend fun main(args: Array<String>) {
     val input: CustomInput = KotlinCustomInput()
 
     val bedRepo = InMemoryBedTypeRepository()
-    val seedBed1 = "Single"
-    val seedBed2 = "Double"
-    val seedBed3 = "King"
+    val seedBed1 = "single"
+    val seedBed2 = "double"
+    val seedBed3 = "king"
     bedRepo.addBed(seedBed1)
     bedRepo.addBed(seedBed2)
     bedRepo.addBed(seedBed3)
     val addBedFlow = AddBedFlow(bedRepo)
+
+    class Io : IO {
+    }
+    val io = Io()
+    val bedJourney = BedJourney(bedRepo, io)
 
     val roomRepo: RoomTypeRepository = InMemoryRoomTypeRepository()
     val roomService = RoomService(input, roomRepo)
@@ -68,7 +75,7 @@ suspend fun main(args: Array<String>) {
             6 -> roomService.addRoomType()
             7 -> removeRoomFlow.run(input)
             9 -> println(roomRepo.getAll())
-            10 -> addBedFlow.run(input)
+            10 -> bedJourney.process()
             else -> if (choice != 12) println("Unknown option")
         }
     } while (choice != 12)

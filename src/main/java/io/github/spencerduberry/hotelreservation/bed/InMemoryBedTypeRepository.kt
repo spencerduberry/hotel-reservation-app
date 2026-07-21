@@ -17,6 +17,6 @@ class InMemoryBedTypeRepository(initialBeds: List<String> = listOf()) : BedTypeR
     }
 
     override fun setAll(beds: List<String>) {
-        TODO("Not yet implemented")
+        bedTypes = beds
     }
 }

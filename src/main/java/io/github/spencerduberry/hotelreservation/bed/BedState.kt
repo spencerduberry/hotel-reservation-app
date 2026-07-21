@@ -22,7 +22,7 @@ sealed interface BedState {
                 input.isBlank() -> EmptyInput(this, next)
                 input.length > 20 -> InputTooLong(this, next)
                 input.lowercase() in context.bedTypes -> BedTypeAlreadyExists(this, next)
-                else -> ConfirmAddBedType(this, next)
+                else -> ConfirmAddBedType(this, next.copy(bedTypes = next.bedTypes + input))
             }
         }
 
@@ -41,7 +41,7 @@ sealed interface BedState {
     ) : BedState {
         override fun process(input: String): BedState {
             return when {
-                input.trim().lowercase() == "y" -> NewBedType(previous, context.copy(bedTypes = context.bedTypes + input))
+                input.trim().lowercase() == "y" -> NewBedType(previous, context.copy())
                 else -> previous
             }
         }

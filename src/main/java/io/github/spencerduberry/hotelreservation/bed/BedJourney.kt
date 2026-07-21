@@ -1,5 +1,7 @@
 package io.github.spencerduberry.hotelreservation.bed
 
+import io.github.spencerduberry.hotelreservation.bed.BedState.EnterNewBedState
+import io.github.spencerduberry.hotelreservation.bed.BedState.NewBedType
 import io.github.spencerduberry.hotelreservation.bed.BedState.None
 
 class BedJourney(
@@ -8,11 +10,12 @@ class BedJourney(
 ) {
     fun process() {
         val context = BedContext(repo.getAll(), "")
-        var state : BedState = BedState.EnterNewBedState(None, context)
+        var state : BedState = EnterNewBedState(None, context)
         do {
             io.printLine(state.ui())
             state = state.process(io.readLine())
-        } while(state !is BedState.NewBedType)
+        } while(state !is NewBedType)
+
         repo.setAll(state.context.bedTypes)
     }
 }
