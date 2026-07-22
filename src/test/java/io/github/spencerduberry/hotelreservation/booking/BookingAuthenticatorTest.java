@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import io.github.spencerduberry.hotelreservation.bed.Bed;
 import io.github.spencerduberry.hotelreservation.room.InMemoryRoomTypeRepository;
 import io.github.spencerduberry.hotelreservation.room.Room;
 import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository;
@@ -30,15 +29,9 @@ public class BookingAuthenticatorTest {
 
         roomTypeRepo = new InMemoryRoomTypeRepository();
 
-        Bed testBed = new Bed("raggedy");
-
         seedRoom = Room.builder()
-                .type("deluxe")
-                .description("juicy")
-                .minRoomNumber(1)
-                .maxRoomNumber(60)
-                .bedType(testBed)
-                .roomTypeTotal(50)
+                .name("deluxe")
+                .bedType("raggedy")
                 .rate(60)
                 .build();
 
@@ -75,22 +68,6 @@ public class BookingAuthenticatorTest {
     @Test
     public void whenRoomTypeAtFullCapacity_thenAvailabilityIsFalse() {
 
-    }
-
-    @Test
-    public void whenRoomNumberIsLessThanMinimumRoomNumber_thenOutOfRangeError() {
-        RoomNumberResult result = authenticator.roomNumberValidityChecker(0, seedRoom, bookingRepo);
-
-        assertEquals(OUTOFRANGE, result.error());
-        assertNull(result.value());
-    }
-
-    @Test
-    public void whenRoomNumberIsGreaterThanMaximumRoomNumber_thenInvalidRoomNumber() {
-        RoomNumberResult result = authenticator.roomNumberValidityChecker(61, seedRoom, bookingRepo);
-
-        assertEquals(OUTOFRANGE, result.error());
-        assertNull(result.value());
     }
 
     @Test

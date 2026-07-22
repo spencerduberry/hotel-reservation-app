@@ -1,5 +1,6 @@
 package io.github.spencerduberry.hotelreservation.bed
 
+import io.github.spencerduberry.hotelreservation.bed.ai.AddBedFlow
 import io.github.spencerduberry.hotelreservation.utils.FakeScannerCustomInput
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -17,7 +18,7 @@ class AddBedFlowTest {
         workflow.run(fakeInput)
 
         val savedBeds = existingBeds.getAll()
-        assertEquals("Queen", savedBeds.first().bedType)
+        assertEquals("Queen", savedBeds.first())
     }
 
 }

@@ -1,13 +1,15 @@
 package io.github.spencerduberry.hotelreservation
 
-import io.github.spencerduberry.hotelreservation.bed.AddBedFlow
-import io.github.spencerduberry.hotelreservation.bed.Bed
+import io.github.spencerduberry.hotelreservation.bed.ai.AddBedFlow
+import io.github.spencerduberry.hotelreservation.bed.BedJourney
+import io.github.spencerduberry.hotelreservation.bed.IO
 import io.github.spencerduberry.hotelreservation.bed.InMemoryBedTypeRepository
 import io.github.spencerduberry.hotelreservation.booking.BookingAuthenticator
 import io.github.spencerduberry.hotelreservation.booking.BookingRepository
 import io.github.spencerduberry.hotelreservation.booking.BookingService
 import io.github.spencerduberry.hotelreservation.booking.InMemoryBookingRepository
 import io.github.spencerduberry.hotelreservation.room.InMemoryRoomTypeRepository
+import io.github.spencerduberry.hotelreservation.room.RemoveRoomFlow
 import io.github.spencerduberry.hotelreservation.room.Room
 import io.github.spencerduberry.hotelreservation.room.RoomService
 import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository
@@ -19,26 +21,28 @@ suspend fun main(args: Array<String>) {
     val input: CustomInput = KotlinCustomInput()
 
     val bedRepo = InMemoryBedTypeRepository()
-    val seedBed1 = Bed("Single")
-    val seedBed2 = Bed("Double")
-    val seedBed3 = Bed("King")
+    val seedBed1 = "single"
+    val seedBed2 = "double"
+    val seedBed3 = "king"
     bedRepo.addBed(seedBed1)
     bedRepo.addBed(seedBed2)
     bedRepo.addBed(seedBed3)
     val addBedFlow = AddBedFlow(bedRepo)
 
+    class Io : IO {
+    }
+    val io = Io()
+    val bedJourney = BedJourney(bedRepo, io)
+
     val roomRepo: RoomTypeRepository = InMemoryRoomTypeRepository()
     val roomService = RoomService(input, roomRepo)
     val seedRoom = Room.builder()
-        .type("deluxe")
-        .description("juicy")
-        .minRoomNumber(1)
-        .maxRoomNumber(60)
+        .name("deluxe")
         .bedType(seedBed1)
-        .roomTypeTotal(50)
         .rate(60)
         .build()
     roomRepo.addRoom(seedRoom)
+    val removeRoomFlow = RemoveRoomFlow(roomRepo)
 
     val bookingRepo: BookingRepository = InMemoryBookingRepository()
     val authenticator = BookingAuthenticator()
@@ -65,9 +69,9 @@ suspend fun main(args: Array<String>) {
         when (choice) {
             1 -> bookingService.addBooking()
             6 -> roomService.addRoomType()
-            7 -> roomRepo.removeRoom(input)
+            7 -> removeRoomFlow.run(input)
             9 -> println(roomRepo.getAll())
-            10 -> addBedFlow.run(input)
+            10 -> bedJourney.process()
             else -> if (choice != 12) println("Unknown option")
         }
     } while (choice != 12)

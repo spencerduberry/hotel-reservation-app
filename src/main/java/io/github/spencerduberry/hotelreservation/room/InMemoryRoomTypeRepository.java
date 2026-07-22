@@ -1,9 +1,8 @@
 package io.github.spencerduberry.hotelreservation.room;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
-import io.github.spencerduberry.hotelreservation.bed.Bed;
-import io.github.spencerduberry.hotelreservation.utils.CustomInput;
+import java.util.Map;
 
 public class InMemoryRoomTypeRepository implements RoomTypeRepository {
 
@@ -14,37 +13,22 @@ public class InMemoryRoomTypeRepository implements RoomTypeRepository {
     }
 
     private void seedData() {
-        Bed doubleBed = new Bed("double");
-        Bed queenBed = new Bed("queen");
-        Bed kingBed = new Bed("king");
 
         roomTypes.add(Room.builder()
-                .type("Standard Double")
-                .description("Comfortable and budget friendly")
-                .minRoomNumber(1)
-                .maxRoomNumber(250)
-                .bedType(doubleBed)
-                .roomTypeTotal(250)
+                .name("Standard Double")
+                .bedType("doubleBed")
                 .rate(1000)
                 .build());
 
         roomTypes.add(Room.builder()
-                .type("Deluxe")
-                .description("Enhanced comfort and additional space")
-                .minRoomNumber(251)
-                .maxRoomNumber(500)
-                .bedType(queenBed)
-                .roomTypeTotal(250)
+                .name("Deluxe")
+                .bedType("queenBed")
                 .rate(1200)
                 .build());
 
         roomTypes.add(Room.builder()
-                .type("Superior")
-                .description("Luxury and premium comfort")
-                .minRoomNumber(501)
-                .maxRoomNumber(530)
-                .bedType(kingBed)
-                .roomTypeTotal(30)
+                .name("Superior")
+                .bedType("kingBed")
                 .rate(1800)
                 .build());
     }
@@ -53,22 +37,17 @@ public class InMemoryRoomTypeRepository implements RoomTypeRepository {
         roomTypes.add(newRoom);
     }
 
-    public void removeRoom(CustomInput input) {
-        System.out.println(roomTypes);
-        System.out.println("Please enter room to remove:");
-        String roomToRemove = input.inputString();
-
-        for (int i = roomTypes.size() - 1; i >= 0; i--) {
-            Room room = roomTypes.get(i);
-
-            if (room.type().equalsIgnoreCase(roomToRemove)) {
-                roomTypes.remove(i);
-            }
-        }
-        System.out.println(roomTypes);
+    public void removeRoom(Room room) {
+        roomTypes.remove(room);
     }
 
-    public List<Room> getAll() {
-        return roomTypes;
+    public Map<String, Room> getAll() {
+        Map<String, Room> roomMap = new HashMap<>();
+
+        for (int i=0; i<roomTypes.size(); i++){
+            roomMap.put(String.valueOf(i+1), roomTypes.get(i));
+        }
+
+        return roomMap;
     }
 }

@@ -1,4 +1,4 @@
-package io.github.spencerduberry.hotelreservation.bed
+package io.github.spencerduberry.hotelreservation.bed.ai
 
 //all possible states of add bed operation
 sealed interface AddBedViewState {
@@ -10,7 +10,7 @@ sealed interface AddBedViewState {
         val error: BedValidationError
     ) : AddBedViewState
 
-    data class SuccessPhase(val newBed: Bed) : AddBedViewState
+    data class SuccessPhase(val newBed: String) : AddBedViewState
 }
 
 sealed interface BedValidationError {
