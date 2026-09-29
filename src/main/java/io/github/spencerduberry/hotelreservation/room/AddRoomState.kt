@@ -1,12 +1,11 @@
 package io.github.spencerduberry.hotelreservation.room
 
-sealed interface AddRoomState {
+import io.github.spencerduberry.hotelreservation.utils.State
+
+sealed interface AddRoomState: State {
 
     val previous: AddRoomState
     val context: AddRoomContext
-
-    fun process(input: String): AddRoomState
-    fun ui(): String
 
     object None : AddRoomState {
         override val previous: AddRoomState = this
@@ -17,7 +16,7 @@ sealed interface AddRoomState {
         override fun ui(): String = ""
     }
 
-    class EnterNameState(
+    class EnterRoomState(
         override val previous: AddRoomState,
         override val context: AddRoomContext
     ) : AddRoomState {

@@ -1,7 +1,9 @@
 package io.github.spencerduberry.hotelreservation.room
 
+import io.github.spencerduberry.hotelreservation.utils.Context
+
 data class AddRoomContext(
     val roomTypes: List<Room>,
     val bedTypes: List<String>,
-    val previousInput: String
-)
+    override val previousInput: String,
+): Context
