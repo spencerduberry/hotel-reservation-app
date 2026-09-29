@@ -12,4 +12,8 @@ class KotlinCustomInput: CustomInput {
 
         return input
     }
+
+    override fun printMessage(message: String?) {
+        println(message)
+    }
 }

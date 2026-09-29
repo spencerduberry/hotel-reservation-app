@@ -56,9 +56,11 @@ class BedJourneyTest {
     @Test
     fun `when starting bed journey, then UI shows input options`() = runTest {
         val io = StubIo()
+        // running the BedJourney process with stub io
         val job = backgroundScope.launch {
             BedJourney(stubBedRepo, io).process()
         }
+        // backs out of loop?
         advanceTimeBy(1.seconds)
         job.cancelAndJoin()
 
@@ -103,7 +105,7 @@ class BedJourneyTest {
     }
 
     @Test
-    fun `when user enters very long string, then UI shows input cannot be empty`() = runTest {
+    fun `when user enters very long string, then UI shows max charatcers exceeeded`() = runTest {
         val io = StubIo()
         val job = backgroundScope.launch {
             BedJourney(stubBedRepo, io).process()
@@ -116,5 +118,56 @@ class BedJourneyTest {
             Input '12345678912345678912345' is longer than 20 characters.
             Press any key to try again.
         """.trimIndent())
+    }
+
+    @Test
+    fun `when user enters valid string, then progress to confirmation`() = runTest {
+        val io = StubIo()
+        val job = backgroundScope.launch {
+            BedJourney(stubBedRepo, io).process()
+        }
+        io.enterUserInput("Quite nice")
+        advanceTimeBy(1.seconds)
+        job.cancelAndJoin()
+
+        assertEquals(io.ui(), """
+            Do you want to add 'Quite nice' as a new bed type?
+            Press "y" to confirm, or another other key to abort.
+        """.trimIndent())
+    }
+
+    @Test
+    fun `when user enters valid string and does not validate, then return to prior state`() = runTest {
+        val io = StubIo()
+        val job = backgroundScope.launch {
+            BedJourney(stubBedRepo, io).process()
+        }
+        io.enterUserInput("Quite nice")
+        advanceTimeBy(1.seconds)
+        io.enterUserInput("n")
+        advanceTimeBy(1.seconds)
+        job.cancelAndJoin()
+
+        assertEquals(io.ui(), """
+            Please enter new bed type. Input must:
+                - Not be empty.
+                - Be fewer than 20 characters in length.
+                - Be unique.
+        """.trimIndent())
+    }
+
+    @Test
+    fun `when user enters valid string and validates, then add ne bed`() = runTest {
+        val io = StubIo()
+        val job = backgroundScope.launch {
+            BedJourney(stubBedRepo, io).process()
+        }
+        io.enterUserInput("Quite nice")
+        advanceTimeBy(1.seconds)
+        io.enterUserInput("y")
+        advanceTimeBy(1.seconds)
+        job.cancelAndJoin()
+
+        assertEquals(1, stubBedRepo.getAll().size)
     }
 }

@@ -1,6 +1,5 @@
 package io.github.spencerduberry.hotelreservation
 
-import io.github.spencerduberry.hotelreservation.bed.ai.AddBedFlow
 import io.github.spencerduberry.hotelreservation.bed.BedJourney
 import io.github.spencerduberry.hotelreservation.bed.IO
 import io.github.spencerduberry.hotelreservation.bed.InMemoryBedTypeRepository
@@ -27,7 +26,6 @@ suspend fun main(args: Array<String>) {
     bedRepo.addBed(seedBed1)
     bedRepo.addBed(seedBed2)
     bedRepo.addBed(seedBed3)
-    val addBedFlow = AddBedFlow(bedRepo)
 
     class Io : IO {
     }
