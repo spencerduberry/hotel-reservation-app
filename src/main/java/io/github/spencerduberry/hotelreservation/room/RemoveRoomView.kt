@@ -1,6 +1,5 @@
 package io.github.spencerduberry.hotelreservation.room
 
-import io.github.spencerduberry.hotelreservation.bed.ai.bundle
 import io.github.spencerduberry.hotelreservation.room.RemoveRoomState.InputNamePhase
 import java.util.Locale
 import java.util.ResourceBundle

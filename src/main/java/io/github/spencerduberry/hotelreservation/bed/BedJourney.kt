@@ -11,8 +11,10 @@ class BedJourney(
     private val io: IO,
 ) {
     suspend fun process() {
+        // establish an initial context and BedState
         val context = BedContext(repo.getAll(), "")
         var state : BedState = EnterNewBedState(None, context)
+        // repeat user prompts until bed successfully created
         do {
             io.printLine(state.ui())
             state = state.process(io.line())
