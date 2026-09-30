@@ -5,7 +5,6 @@ import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceTimeBy
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -114,10 +113,10 @@ class BedJourneyTest {
         advanceTimeBy(1.seconds)
         job.cancelAndJoin()
 
-        assertEquals(io.ui(), """
+        assertEquals("""
             Input '12345678912345678912345' is longer than 20 characters.
             Press any key to try again.
-        """.trimIndent())
+        """.trimIndent(), io.ui(),)
     }
 
     @Test
@@ -130,10 +129,10 @@ class BedJourneyTest {
         advanceTimeBy(1.seconds)
         job.cancelAndJoin()
 
-        assertEquals(io.ui(), """
+        assertEquals("""
             Do you want to add 'Quite nice' as a new bed type?
             Press "y" to confirm, or another other key to abort.
-        """.trimIndent())
+        """.trimIndent(), io.ui())
     }
 
     @Test
@@ -148,12 +147,12 @@ class BedJourneyTest {
         advanceTimeBy(1.seconds)
         job.cancelAndJoin()
 
-        assertEquals(io.ui(), """
+        assertEquals("""
             Please enter new bed type. Input must:
                 - Not be empty.
                 - Be fewer than 20 characters in length.
                 - Be unique.
-        """.trimIndent())
+        """.trimIndent(), io.ui(), )
     }
 
     @Test

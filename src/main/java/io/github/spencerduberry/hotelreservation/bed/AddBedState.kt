@@ -1,8 +1,10 @@
 package io.github.spencerduberry.hotelreservation.bed
 
 import io.github.spencerduberry.hotelreservation.utils.State
-import io.github.spencerduberry.hotelreservation.utils.Validator.EmptyInput
-import io.github.spencerduberry.hotelreservation.utils.Validator.InputTooLong
+import io.github.spencerduberry.hotelreservation.utils.ValidationKey.ALREADY_EXISTS
+import io.github.spencerduberry.hotelreservation.utils.ValidationKey.EMPTY_INPUT
+import io.github.spencerduberry.hotelreservation.utils.ValidationKey.TOO_LONG
+import io.github.spencerduberry.hotelreservation.utils.validate
 
 sealed interface AddBedState: State {
 
@@ -22,12 +24,14 @@ sealed interface AddBedState: State {
 
         override fun process(input: String): State {
             val next = context.copy(previousInput = input)
-            return when {
-                input.isBlank() -> EmptyInput(this, next)
-                input.length > 20 -> InputTooLong(this, next)
-                input.lowercase() in context.bedTypes -> AddBedTypeAlreadyExists(this, next)
-                else -> ConfirmAddAddBedType(this, next)
-            }
+
+            return validate(
+                listOf(EMPTY_INPUT, TOO_LONG, ALREADY_EXISTS),
+                next,
+                input,
+                this,
+                ConfirmAddAddBedType(this, next)
+            )
         }
 
 
