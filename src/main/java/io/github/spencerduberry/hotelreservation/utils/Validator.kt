@@ -77,10 +77,13 @@ import io.github.spencerduberry.hotelreservation.utils.Validator.InputTooLong
     }
 
     fun validate(keys: List<ValidationKey>, context: Context, input: String, previousState: State, nextState: State): State{
+        // loop through the keys in the list
         for (key in keys) {
-            val predicate = getValidationRule(key, context)
-
-            if(predicate(input)) {
+            //get the rule that corresponds to the key
+            val rule = getValidationRule(key, context)
+            //if the input satisfies the predicate
+            if(rule(input)) {
+                //return the appropriate error state
                 return getErrorState(key, previousState, context)
             }
         }

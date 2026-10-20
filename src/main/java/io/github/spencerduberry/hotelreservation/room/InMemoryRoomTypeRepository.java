@@ -41,13 +41,12 @@ public class InMemoryRoomTypeRepository implements RoomTypeRepository {
         roomTypes.remove(room);
     }
 
-    public Map<String, Room> getAll() {
-        Map<String, Room> roomMap = new HashMap<>();
+    public List<Room> getAll() {
+        return roomTypes;
+    }
 
-        for (int i=0; i<roomTypes.size(); i++){
-            roomMap.put(String.valueOf(i+1), roomTypes.get(i));
-        }
-
-        return roomMap;
+    @Override
+    public void setAll(List<Room> rooms) {
+        roomTypes = rooms;
     }
 }

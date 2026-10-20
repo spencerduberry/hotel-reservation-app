@@ -3,12 +3,12 @@ package io.github.spencerduberry.hotelreservation
 import io.github.spencerduberry.hotelreservation.bed.BedJourney
 import io.github.spencerduberry.hotelreservation.bed.IO
 import io.github.spencerduberry.hotelreservation.bed.InMemoryBedTypeRepository
-import io.github.spencerduberry.hotelreservation.booking.BookingAuthenticator
+//import io.github.spencerduberry.hotelreservation.booking.BookingAuthenticator
 import io.github.spencerduberry.hotelreservation.booking.BookingRepository
-import io.github.spencerduberry.hotelreservation.booking.BookingService
+//import io.github.spencerduberry.hotelreservation.booking.BookingService
 import io.github.spencerduberry.hotelreservation.booking.InMemoryBookingRepository
 import io.github.spencerduberry.hotelreservation.room.InMemoryRoomTypeRepository
-import io.github.spencerduberry.hotelreservation.room.RemoveRoomFlow
+//import io.github.spencerduberry.hotelreservation.room.RemoveRoomFlow
 import io.github.spencerduberry.hotelreservation.room.Room
 import io.github.spencerduberry.hotelreservation.room.RoomService
 import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository
@@ -40,11 +40,11 @@ suspend fun main(args: Array<String>) {
         .rate(60)
         .build()
     roomRepo.addRoom(seedRoom)
-    val removeRoomFlow = RemoveRoomFlow(roomRepo)
+//    val removeRoomFlow = RemoveRoomFlow(roomRepo)
 
     val bookingRepo: BookingRepository = InMemoryBookingRepository()
-    val authenticator = BookingAuthenticator()
-    val bookingService = BookingService(input, bookingRepo, authenticator, roomRepo)
+//    val authenticator = BookingAuthenticator()
+//    val bookingService = BookingService(input, bookingRepo, authenticator, roomRepo)
 
     var choice: Int
     do {
@@ -65,9 +65,9 @@ suspend fun main(args: Array<String>) {
         choice = input.inputInt()
 
         when (choice) {
-            1 -> bookingService.addBooking()
+//            1 -> bookingService.addBooking()
             6 -> roomService.addRoomType()
-            7 -> removeRoomFlow.run(input)
+//            7 -> removeRoomFlow.run(input)
             9 -> println(roomRepo.getAll())
             10 -> bedJourney.process()
             else -> if (choice != 12) println("Unknown option")

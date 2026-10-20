@@ -1,9 +1,8 @@
 package io.github.spencerduberry.hotelreservation.bed
 
 import io.github.spencerduberry.hotelreservation.bed.AddBedState.EnterNewBedState
-import io.github.spencerduberry.hotelreservation.bed.AddBedState.NewAddBedType
+import io.github.spencerduberry.hotelreservation.bed.AddBedState.AddNewBedState
 import io.github.spencerduberry.hotelreservation.bed.AddBedState.None
-import io.github.spencerduberry.hotelreservation.utils.Validator
 import io.github.spencerduberry.hotelreservation.utils.State
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -20,7 +19,7 @@ class BedJourney(
         do {
             io.printLine(state.ui())
             state = state.process(io.line())
-        } while(state !is NewAddBedType)
+        } while(state !is AddNewBedState)
 
         repo.setAll(state.context.bedTypes)
     }

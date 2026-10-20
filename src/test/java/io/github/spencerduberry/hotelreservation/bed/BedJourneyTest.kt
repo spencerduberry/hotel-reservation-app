@@ -104,7 +104,7 @@ class BedJourneyTest {
     }
 
     @Test
-    fun `when user enters very long string, then UI shows max charatcers exceeeded`() = runTest {
+    fun `when user enters very long string, then UI shows max characters exceeded`() = runTest {
         val io = StubIo()
         val job = backgroundScope.launch {
             BedJourney(stubBedRepo, io).process()
@@ -156,7 +156,7 @@ class BedJourneyTest {
     }
 
     @Test
-    fun `when user enters valid string and validates, then add ne bed`() = runTest {
+    fun `when user enters valid string and validates, then add new bed`() = runTest {
         val io = StubIo()
         val job = backgroundScope.launch {
             BedJourney(stubBedRepo, io).process()

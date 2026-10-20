@@ -7,7 +7,7 @@ import io.github.spencerduberry.hotelreservation.utils.CustomInput;
 public interface RoomTypeRepository {
     void addRoom(Room room);
     void removeRoom(Room room);
-    Map<String, Room> getAll();
-
+    List<Room> getAll();
+    void setAll(List<Room> rooms);
 } 
     
