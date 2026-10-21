@@ -1,9 +1,9 @@
 package io.github.spencerduberry.hotelreservation.room
 
-import io.github.spencerduberry.hotelreservation.bed.BedJourney
 import io.github.spencerduberry.hotelreservation.bed.BedTypeRepository
 import io.github.spencerduberry.hotelreservation.bed.IO
 import io.github.spencerduberry.hotelreservation.room.AddRoomState.ChooseBedState
+import io.github.spencerduberry.hotelreservation.room.AddRoomState.EnterNewRoomState
 import io.github.spencerduberry.hotelreservation.room.AddRoomState.None
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancelAndJoin
@@ -16,11 +16,12 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.seconds
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class RoomJourneyTest {
     private lateinit var io: StubIo
 
-    val stubRoomRepo = object: RoomTypeRepository {
+    val stubRoomRepo = object : RoomTypeRepository {
         private val types = mutableListOf<Room>()
 
         override fun addRoom(newRoom: Room) {
@@ -41,7 +42,7 @@ class RoomJourneyTest {
 
     }
 
-    val stubBedRepo = object: BedTypeRepository {
+    val stubBedRepo = object : BedTypeRepository {
         private val types = mutableListOf<String>()
 
         override fun addBed(newBed: String) {
@@ -76,7 +77,7 @@ class RoomJourneyTest {
             output.add(input)
         }
 
-        fun ui() : String = output.last()
+        fun ui(): String = output.last()
     }
 
     @BeforeEach
@@ -84,8 +85,24 @@ class RoomJourneyTest {
         io = StubIo()
     }
 
-    private fun TestScope.startJourney() = backgroundScope.launch {
-        RoomJourney(stubRoomRepo, stubBedRepo, io).process()
+    val defaultContext: AddRoomContext = AddRoomContext(
+        stubRoomRepo.getAll(),
+        stubBedRepo.getAll(),
+        "",
+        "Room"
+    )
+
+    private fun TestScope.startJourney(
+        state: AddRoomState = EnterNewRoomState(
+            None,
+            AddRoomContext(
+                stubRoomRepo.getAll(),
+                stubBedRepo.getAll(),
+                ""
+            )
+        )
+    ) = backgroundScope.launch {
+        RoomJourney(stubRoomRepo, stubBedRepo, io, state).process()
     }
 
     private fun TestScope.enterInputs(vararg inputs: String) {
@@ -95,18 +112,28 @@ class RoomJourneyTest {
         }
     }
 
+    private fun generateRoomState(
+        stateFactory: (previous: AddRoomState, context: AddRoomContext) -> AddRoomState = ::EnterNewRoomState,
+        context: AddRoomContext,
+        previousState: AddRoomState = None
+    ): AddRoomState {
+        return stateFactory(previousState, context)
+    }
+
     @Test
     fun `when starting room journey, then UI shows input options`() = runTest {
         val job = startJourney()
         advanceTimeBy(1.seconds)
         job.cancelAndJoin()
 
-        assertEquals(io.ui(), """
+        assertEquals(
+            io.ui(), """
             Please enter room name. Input must:
                 - Not be empty.
                 - Be fewer than 20 characters in length.
                 - Be unique.
-        """.trimIndent())
+        """.trimIndent()
+        )
     }
 
     @Test
@@ -115,10 +142,12 @@ class RoomJourneyTest {
         enterInputs("")
         job.cancelAndJoin()
 
-        assertEquals(io.ui(), """
+        assertEquals(
+            io.ui(), """
                 Input cannot be empty. 
                 Press any key to try again.
-            """.trimIndent())
+            """.trimIndent()
+        )
     }
 
     @Test
@@ -127,10 +156,12 @@ class RoomJourneyTest {
         enterInputs("  \t")
         job.cancelAndJoin()
 
-        assertEquals(io.ui(), """
+        assertEquals(
+            io.ui(), """
                 Input cannot be empty. 
                 Press any key to try again.
-            """.trimIndent())
+            """.trimIndent()
+        )
     }
 
     @Test
@@ -139,10 +170,13 @@ class RoomJourneyTest {
         enterInputs("12345678912345678912345")
         job.cancelAndJoin()
 
-        assertEquals("""
+        assertEquals(
+            """
             Input '12345678912345678912345' is longer than 20 characters.
             Press any key to try again.
-        """.trimIndent(), io.ui(),)
+        """.trimIndent(),
+            io.ui(),
+        )
     }
 
     @Test
@@ -153,37 +187,30 @@ class RoomJourneyTest {
         enterInputs("Sexy")
         job.cancelAndJoin()
 
-        assertEquals("""
+        assertEquals(
+            """
             Please select a bed type:
 
             1. Deluxe
-        """.trimIndent(), io.ui())
+        """.trimIndent(), io.ui()
+        )
     }
 
     @Test
     fun `when user enters invalid key, then display error message`() = runTest {
         stubBedRepo.addBed("Deluxe")
 
-        val mockContext = AddRoomContext(
-            stubRoomRepo.getAll(),
-            stubBedRepo.getAll(),
-            "",
-            "Room"
-                )
-        val job = backgroundScope.launch {
-            RoomJourney(
-                stubRoomRepo,
-                stubBedRepo,
-                io,
-                ChooseBedState(None, mockContext)
-            ).process()
-        }
+        val job = startJourney(
+            generateRoomState(::ChooseBedState, defaultContext)
+        )
         enterInputs("2")
         job.cancelAndJoin()
 
-        assertEquals("""
+        assertEquals(
+            """
                 Please choose a valid bed type. Press a key to continue.
-            """.trimIndent(), io.ui())
+            """.trimIndent(), io.ui()
+        )
     }
 //
 //    @Test
