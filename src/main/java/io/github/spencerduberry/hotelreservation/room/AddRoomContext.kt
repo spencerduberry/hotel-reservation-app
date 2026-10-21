@@ -6,5 +6,5 @@ data class AddRoomContext(
     val roomTypes: List<Room>,
     val bedTypes: List<String>,
     override val previousInput: String,
-    override val name: String = "Room"
+    override val type: String = "Room"
 ): Context

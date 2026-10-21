@@ -2,9 +2,12 @@ package io.github.spencerduberry.hotelreservation.bed
 
 import io.github.spencerduberry.hotelreservation.utils.State
 import io.github.spencerduberry.hotelreservation.utils.ValidationKey
+import io.github.spencerduberry.hotelreservation.utils.ValidationKey.ALREADY_EXISTS
+import io.github.spencerduberry.hotelreservation.utils.ValidationKey.EMPTY_INPUT
+import io.github.spencerduberry.hotelreservation.utils.ValidationKey.TOO_LONG
 import io.github.spencerduberry.hotelreservation.utils.validate
 
-sealed interface AddBedState: State {
+sealed interface AddBedState : State {
 
     object None : AddBedState {
         override val previous: AddBedState = this
@@ -24,7 +27,11 @@ sealed interface AddBedState: State {
             val next = context.copy(previousInput = input)
 
             return validate(
-                ValidationKey.entries,
+                listOf(
+                    EMPTY_INPUT,
+                    TOO_LONG,
+                    ALREADY_EXISTS
+                ),
                 next,
                 input,
                 this,
@@ -46,11 +53,14 @@ sealed interface AddBedState: State {
     ) : AddBedState {
         override fun process(input: String): AddBedState {
             return when {
-                input.trim().lowercase() == "y" -> AddNewBedState(previous, context.copy(bedTypes = context.bedTypes + context.previousInput))
+                input.trim().lowercase() == "y" -> AddNewBedState(
+                    previous,
+                    context.copy(bedTypes = context.bedTypes + context.previousInput)
+                )
+
                 else -> previous
             }
         }
-
 
         override fun ui(): String = """
             Do you want to add '${context.previousInput}' as a new bed type?
@@ -65,7 +75,6 @@ sealed interface AddBedState: State {
     ) : AddBedState {
         override fun process(input: String): AddBedState = this
         override fun ui(): String = ""
-
     }
 
     val previous: AddBedState

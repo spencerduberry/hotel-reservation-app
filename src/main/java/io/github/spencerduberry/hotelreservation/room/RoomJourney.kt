@@ -27,6 +27,7 @@ class RoomJourney(
                 state = state.process(io.line())
             } while(state !is AddNewRoomState)
 
-            roomRepo.setAll(state.context.roomTypes)
+            roomRepo.addRoom(Room.builder().
+            ))
         }
 }
