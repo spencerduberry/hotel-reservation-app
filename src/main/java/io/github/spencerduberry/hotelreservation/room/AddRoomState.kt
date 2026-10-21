@@ -1,5 +1,6 @@
 package io.github.spencerduberry.hotelreservation.room
 
+import io.github.spencerduberry.hotelreservation.utils.Context
 import io.github.spencerduberry.hotelreservation.utils.State
 import io.github.spencerduberry.hotelreservation.utils.ValidationKey
 import io.github.spencerduberry.hotelreservation.utils.validate
@@ -55,13 +56,13 @@ sealed interface AddRoomState: State {
 
             return when {
                 input.trim() in bedMap.keys -> AddRateState(this, next)
-                else -> previous
+                else -> InvalidKey(this, next)
             }
         }
 
         override fun ui(): String {
             val formattedBeds = bedMap.entries.joinToString(separator = "\n") { (key, value) ->
-                "$key: $value"
+                "$key. $value"
             }
 
             return """
@@ -71,6 +72,17 @@ sealed interface AddRoomState: State {
         """.trimIndent()
         }
 
+    }
+
+    class InvalidKey(
+        override val previous: AddRoomState,
+        override val context: AddRoomContext
+    ) : AddRoomState {
+        override fun process(input: String): State = previous
+
+        override fun ui(): String = """
+                Please choose a valid bed type. Press a key to continue.
+            """.trimIndent()
     }
 
     class AddRateState(

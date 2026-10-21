@@ -3,17 +3,23 @@ package io.github.spencerduberry.hotelreservation.room
 import io.github.spencerduberry.hotelreservation.bed.BedJourney
 import io.github.spencerduberry.hotelreservation.bed.BedTypeRepository
 import io.github.spencerduberry.hotelreservation.bed.IO
+import io.github.spencerduberry.hotelreservation.room.AddRoomState.ChooseBedState
+import io.github.spencerduberry.hotelreservation.room.AddRoomState.None
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.seconds
 @OptIn(ExperimentalCoroutinesApi::class)
 class RoomJourneyTest {
+    private lateinit var io: StubIo
+
     val stubRoomRepo = object: RoomTypeRepository {
         private val types = mutableListOf<Room>()
 
@@ -73,12 +79,25 @@ class RoomJourneyTest {
         fun ui() : String = output.last()
     }
 
+    @BeforeEach
+    fun setup() {
+        io = StubIo()
+    }
+
+    private fun TestScope.startJourney() = backgroundScope.launch {
+        RoomJourney(stubRoomRepo, stubBedRepo, io).process()
+    }
+
+    private fun TestScope.enterInputs(vararg inputs: String) {
+        for (input in inputs) {
+            io.enterUserInput(input)
+            advanceTimeBy(1.seconds)
+        }
+    }
+
     @Test
     fun `when starting room journey, then UI shows input options`() = runTest {
-        val io = StubIo()
-        val job = backgroundScope.launch {
-            RoomJourney(stubRoomRepo, stubBedRepo, io).process()
-        }
+        val job = startJourney()
         advanceTimeBy(1.seconds)
         job.cancelAndJoin()
 
@@ -92,12 +111,8 @@ class RoomJourneyTest {
 
     @Test
     fun `when user enters empty input, then UI shows input cannot be empty`() = runTest {
-        val io = StubIo()
-        val job = backgroundScope.launch {
-            RoomJourney(stubRoomRepo, stubBedRepo, io).process()
-        }
-        io.enterUserInput("")
-        advanceTimeBy(1.seconds)
+        val job = startJourney()
+        enterInputs("")
         job.cancelAndJoin()
 
         assertEquals(io.ui(), """
@@ -108,12 +123,8 @@ class RoomJourneyTest {
 
     @Test
     fun `when user enters whitespace, then UI shows input cannot be empty`() = runTest {
-        val io = StubIo()
-        val job = backgroundScope.launch {
-            RoomJourney(stubRoomRepo, stubBedRepo, io).process()
-        }
-        io.enterUserInput("  \t")
-        advanceTimeBy(1.seconds)
+        val job = startJourney()
+        enterInputs("  \t")
         job.cancelAndJoin()
 
         assertEquals(io.ui(), """
@@ -124,12 +135,8 @@ class RoomJourneyTest {
 
     @Test
     fun `when user enters very long string, then UI shows max characters exceeded`() = runTest {
-        val io = StubIo()
-        val job = backgroundScope.launch {
-            RoomJourney(stubRoomRepo, stubBedRepo, io).process()
-        }
-        io.enterUserInput("12345678912345678912345")
-        advanceTimeBy(1.seconds)
+        val job = startJourney()
+        enterInputs("12345678912345678912345")
         job.cancelAndJoin()
 
         assertEquals("""
@@ -140,20 +147,43 @@ class RoomJourneyTest {
 
     @Test
     fun `when user enters valid string, then progress to choose bed state`() = runTest {
-        val io = StubIo()
-        val job = backgroundScope.launch {
-            RoomJourney(stubRoomRepo, stubBedRepo, io).process()
-        }
         stubBedRepo.addBed("Deluxe")
-        io.enterUserInput("Sexy")
-        advanceTimeBy(1.seconds)
+
+        val job = startJourney()
+        enterInputs("Sexy")
         job.cancelAndJoin()
 
         assertEquals("""
             Please select a bed type:
 
-            1: Deluxe
+            1. Deluxe
         """.trimIndent(), io.ui())
+    }
+
+    @Test
+    fun `when user enters invalid key, then display error message`() = runTest {
+        stubBedRepo.addBed("Deluxe")
+
+        val mockContext = AddRoomContext(
+            stubRoomRepo.getAll(),
+            stubBedRepo.getAll(),
+            "",
+            "Room"
+                )
+        val job = backgroundScope.launch {
+            RoomJourney(
+                stubRoomRepo,
+                stubBedRepo,
+                io,
+                ChooseBedState(None, mockContext)
+            ).process()
+        }
+        enterInputs("2")
+        job.cancelAndJoin()
+
+        assertEquals("""
+                Please choose a valid bed type. Press a key to continue.
+            """.trimIndent(), io.ui())
     }
 //
 //    @Test

@@ -11,10 +11,17 @@ class RoomJourney(
     private val roomRepo: RoomTypeRepository,
     private val bedRepo: BedTypeRepository,
     private val io: IO,
+    private val initialState: State = EnterNewRoomState(
+        None,
+        AddRoomContext(
+            roomRepo.getAll(),
+            bedRepo.getAll(),
+            "")
+    )
     ) {
         suspend fun process() {
-            val context = AddRoomContext(roomRepo.getAll(), bedRepo.getAll(), "")
-            var state: State = EnterNewRoomState(None, context)
+            var state: State = initialState
+
             do {
                 io.printLine(state.ui())
                 state = state.process(io.line())

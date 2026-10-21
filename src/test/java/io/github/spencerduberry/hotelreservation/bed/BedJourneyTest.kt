@@ -1,18 +1,21 @@
 package io.github.spencerduberry.hotelreservation.bed
 
+import io.github.spencerduberry.hotelreservation.room.RoomJourney
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class BedJourneyTest {
-
+    private lateinit var io: StubIo
     val stubBedRepo = object: BedTypeRepository {
         private val types = mutableListOf<String>()
 
@@ -52,13 +55,26 @@ class BedJourneyTest {
         fun ui() : String = output.last()
     }
 
+    @BeforeEach
+    fun setup() {
+        io = StubIo()
+    }
+
+    private fun TestScope.startJourney() = backgroundScope.launch {
+        BedJourney(stubBedRepo, io).process()
+    }
+
+    private fun TestScope.enterInputs(vararg inputs: String) {
+        for (input in inputs) {
+            io.enterUserInput(input)
+            advanceTimeBy(1.seconds)
+        }
+    }
+
     @Test
     fun `when starting bed journey, then UI shows input options`() = runTest {
-        val io = StubIo()
         // running the BedJourney process with stub io
-        val job = backgroundScope.launch {
-            BedJourney(stubBedRepo, io).process()
-        }
+        val job = startJourney()
         // backs out of loop?
         advanceTimeBy(1.seconds)
         job.cancelAndJoin()
@@ -73,12 +89,8 @@ class BedJourneyTest {
 
     @Test
     fun `when user enters empty input, then UI shows input cannot be empty`() = runTest {
-        val io = StubIo()
-        val job = backgroundScope.launch {
-            BedJourney(stubBedRepo, io).process()
-        }
-        io.enterUserInput("")
-        advanceTimeBy(1.seconds)
+        val job = startJourney()
+        enterInputs("")
         job.cancelAndJoin()
 
         assertEquals(io.ui(), """
@@ -89,12 +101,8 @@ class BedJourneyTest {
 
     @Test
     fun `when user enters whitespace, then UI shows input cannot be empty`() = runTest {
-        val io = StubIo()
-        val job = backgroundScope.launch {
-            BedJourney(stubBedRepo, io).process()
-        }
-        io.enterUserInput("  \t")
-        advanceTimeBy(1.seconds)
+        val job = startJourney()
+        enterInputs("  \t")
         job.cancelAndJoin()
 
         assertEquals(io.ui(), """
@@ -105,12 +113,8 @@ class BedJourneyTest {
 
     @Test
     fun `when user enters very long string, then UI shows max characters exceeded`() = runTest {
-        val io = StubIo()
-        val job = backgroundScope.launch {
-            BedJourney(stubBedRepo, io).process()
-        }
-        io.enterUserInput("12345678912345678912345")
-        advanceTimeBy(1.seconds)
+        val job = startJourney()
+        enterInputs("12345678912345678912345")
         job.cancelAndJoin()
 
         assertEquals("""
@@ -121,12 +125,8 @@ class BedJourneyTest {
 
     @Test
     fun `when user enters valid string, then progress to confirmation`() = runTest {
-        val io = StubIo()
-        val job = backgroundScope.launch {
-            BedJourney(stubBedRepo, io).process()
-        }
-        io.enterUserInput("Quite nice")
-        advanceTimeBy(1.seconds)
+        val job = startJourney()
+        enterInputs("Quite nice")
         job.cancelAndJoin()
 
         assertEquals("""
@@ -137,14 +137,8 @@ class BedJourneyTest {
 
     @Test
     fun `when user enters valid string and does not validate, then return to prior state`() = runTest {
-        val io = StubIo()
-        val job = backgroundScope.launch {
-            BedJourney(stubBedRepo, io).process()
-        }
-        io.enterUserInput("Quite nice")
-        advanceTimeBy(1.seconds)
-        io.enterUserInput("n")
-        advanceTimeBy(1.seconds)
+        val job = startJourney()
+        enterInputs("Quite nice", "n")
         job.cancelAndJoin()
 
         assertEquals("""
@@ -157,14 +151,8 @@ class BedJourneyTest {
 
     @Test
     fun `when user enters valid string and validates, then add new bed`() = runTest {
-        val io = StubIo()
-        val job = backgroundScope.launch {
-            BedJourney(stubBedRepo, io).process()
-        }
-        io.enterUserInput("Quite nice")
-        advanceTimeBy(1.seconds)
-        io.enterUserInput("y")
-        advanceTimeBy(1.seconds)
+        val job = startJourney()
+        enterInputs("Quite nice", "y")
         job.cancelAndJoin()
 
         assertEquals(1, stubBedRepo.getAll().size)
