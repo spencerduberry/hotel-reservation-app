@@ -37,7 +37,10 @@ sealed interface AddRoomState : State {
                 next,
                 input,
                 this,
-                ChooseBedState(this, next, input)
+                ChooseBedState(
+                    this,
+                    next.copy(name = input)
+                )
             )
         }
 
@@ -52,7 +55,6 @@ sealed interface AddRoomState : State {
     class ChooseBedState(
         override val previous: AddRoomState,
         override val context: AddRoomContext,
-        val name: String
     ) : AddRoomState {
         override fun process(input: String): AddRoomState {
             val next = context.copy(previousInput = input)
@@ -64,9 +66,11 @@ sealed interface AddRoomState : State {
                     .let { (it - 1) }
                     // get the selected bed
                     .let { context.bedTypes[it] }
-            }.map { AddRateState(this, next, name, it) }
+            }.map {
+                AddRateState(this, next.copy(bed = input))
+            }
                 .getOrElse {
-                    InvalidBed(this, next, name)
+                    InvalidBed(this, next)
                 }
         }
     }
@@ -86,13 +90,12 @@ sealed interface AddRoomState : State {
     class InvalidBed(
         override val previous: AddRoomState,
         override val context: AddRoomContext,
-        val name: String
     ) : AddRoomState {
         override fun process(input: String): State {
             val next = context.copy(previousInput = input)
             return when (input) {
-                "\n" -> ChooseBedState(this, next, name)
-                else -> InvalidBed(this, next, name)
+                "\n" -> ChooseBedState(this, next)
+                else -> InvalidBed(this, next)
             }
         }
 
@@ -104,8 +107,6 @@ sealed interface AddRoomState : State {
     class AddRateState(
         override val previous: AddRoomState,
         override val context: AddRoomContext,
-        val name: String,
-        val bed: String
     ) : AddRoomState {
         override fun process(input: String): State {
             val next = context.copy(previousInput = input)
@@ -117,7 +118,17 @@ sealed interface AddRoomState : State {
                 next,
                 input,
                 this,
-                AddNewRoomState(this, next, bed)
+                AddNewRoomState(
+                    this,
+                    next.copy(
+                        roomTypes = context.roomTypes +
+                                (Room.builder()
+                                    .name(context.name)
+                                    .bedType(context.bed)
+                                    .rate(input.toInt())
+                                    .build())
+                    )
+                )
             )
         }
 
@@ -130,12 +141,9 @@ sealed interface AddRoomState : State {
     class AddNewRoomState(
         override val previous: AddRoomState,
         override val context: AddRoomContext,
-        val bed: String
     ) : AddRoomState {
-        override fun process(input: String): AddRoomState {
-            TODO("Not yet implemented")
-        }
+        override fun process(input: String): AddRoomState = this
 
-        override fun ui(): String = "hiya"
+        override fun ui(): String = ""
     }
 }

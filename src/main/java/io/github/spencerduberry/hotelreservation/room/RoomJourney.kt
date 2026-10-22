@@ -16,18 +16,19 @@ class RoomJourney(
         AddRoomContext(
             roomRepo.getAll(),
             bedRepo.getAll(),
-            "")
+            ""
+        )
     )
-    ) {
-        suspend fun process() {
-            var state: State = initialState
+) {
+    suspend fun process() {
+        var state: State = initialState
 
-            do {
-                io.printLine(state.ui())
-                state = state.process(io.line())
-            } while(state !is AddNewRoomState)
+        do {
+            io.printLine(state.ui())
+            state = state.process(io.line())
+        } while (state !is AddNewRoomState)
 
-            roomRepo.addRoom(Room.builder().
-            ))
-        }
+        roomRepo.setAll(state.context.roomTypes)
+
+    }
 }

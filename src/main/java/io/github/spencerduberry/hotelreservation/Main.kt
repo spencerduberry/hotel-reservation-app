@@ -38,7 +38,7 @@ suspend fun main(args: Array<String>) {
         .name("deluxe")
         .bedType(seedBed1)
         .rate(60)
-        .build()
+        ?.build()
     roomRepo.addRoom(seedRoom)
 //    val removeRoomFlow = RemoveRoomFlow(roomRepo)
 

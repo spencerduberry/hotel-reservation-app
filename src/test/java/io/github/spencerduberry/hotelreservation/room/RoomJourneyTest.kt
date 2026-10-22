@@ -285,7 +285,7 @@ class RoomJourneyTest {
     @Test
     fun `given state is add rate, when user inputs negative integer, then negative integer error`() = runTest {
         val job = startJourney(
-            AddRateState(None, defaultContext, "")
+            AddRateState(None, defaultContext)
         )
         enterInputs("-1")
         job.cancelAndJoin()
@@ -299,15 +299,22 @@ class RoomJourneyTest {
     }
 
     @Test
-    fun `given state is add rate, when user inputs positive integer, then progress to AddNewRoomState`() = runTest {
+    fun `given state is add rate, when user inputs positive integer, then add new room`() = runTest {
         val job = startJourney(
-            AddRateState(None, defaultContext, "")
+            AddRateState(None,
+                AddRoomContext(
+                    stubRoomRepo.getAll(),
+                    stubBedRepo.getAll(),
+                    "",
+                    "Room",
+                    "Deluxe",
+                    "Double",
+                    null
+                ))
         )
-        enterInputs("1")
+        enterInputs("10")
         job.cancelAndJoin()
 
-        assertEquals(
-            "hiya", io.ui()
-        )
+        assertEquals(1, stubRoomRepo.getAll().size)
     }
 }
