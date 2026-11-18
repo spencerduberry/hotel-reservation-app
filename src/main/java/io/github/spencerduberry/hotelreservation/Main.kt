@@ -1,17 +1,16 @@
 package io.github.spencerduberry.hotelreservation
 
+//import io.github.spencerduberry.hotelreservation.booking.BookingAuthenticator
+//import io.github.spencerduberry.hotelreservation.booking.BookingService
+//import io.github.spencerduberry.hotelreservation.room.RemoveRoomFlow
 import io.github.spencerduberry.hotelreservation.bed.BedJourney
 import io.github.spencerduberry.hotelreservation.bed.IO
 import io.github.spencerduberry.hotelreservation.bed.InMemoryBedTypeRepository
-//import io.github.spencerduberry.hotelreservation.booking.BookingAuthenticator
 import io.github.spencerduberry.hotelreservation.booking.BookingRepository
-//import io.github.spencerduberry.hotelreservation.booking.BookingService
 import io.github.spencerduberry.hotelreservation.booking.InMemoryBookingRepository
 import io.github.spencerduberry.hotelreservation.room.InMemoryRoomTypeRepository
-//import io.github.spencerduberry.hotelreservation.room.RemoveRoomFlow
 import io.github.spencerduberry.hotelreservation.room.Room
 import io.github.spencerduberry.hotelreservation.room.RoomJourney
-import io.github.spencerduberry.hotelreservation.room.RoomService
 import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository
 import io.github.spencerduberry.hotelreservation.utils.CustomInput
 import io.github.spencerduberry.hotelreservation.utils.KotlinCustomInput
@@ -30,6 +29,7 @@ suspend fun main(args: Array<String>) {
 
     class Io : IO {
     }
+
     val io = Io()
     val bedJourney = BedJourney(bedRepo, io)
 
