@@ -43,7 +43,7 @@ sealed interface Validator : State {
         override fun process(input: String): State = previous
 
         override fun ui(): String = """
-                Input 'A ${context.type}' with this name already exists.
+                Input A ${context.type} with this name already exists.
                 Press any key to try again.
             """.trimIndent()
     }

@@ -76,15 +76,11 @@ sealed interface AddRoomState : State {
     }
 
     override fun ui(): String {
-        val displayable = context.bedTypes
-            .mapIndexed { i, bedType -> "${i + 1}. $bedType" }
+        val bedsUi = context.bedTypes
+            .mapIndexed { i, bedType -> "    ${i + 1}. $bedType" }
             .joinToString("\n")
 
-        return """
-            Please select a bed type:
-
-            $displayable
-        """.trimIndent()
+        return "Please select a bed type:\n$bedsUi"
     }
 
     class InvalidBed(
@@ -94,7 +90,7 @@ sealed interface AddRoomState : State {
         override fun process(input: String): State {
             val next = context.copy(previousInput = input)
             return when (input) {
-                "\n" -> ChooseBedState(this, next)
+                "" -> ChooseBedState(this, next)
                 else -> InvalidBed(this, next)
             }
         }
