@@ -2,8 +2,10 @@ package io.github.spencerduberry.hotelreservation.utils
 
 import io.github.spencerduberry.hotelreservation.bed.AddBedContext
 import io.github.spencerduberry.hotelreservation.room.AddRoomContext
+import io.github.spencerduberry.hotelreservation.room.RemoveRoomContext
 import io.github.spencerduberry.hotelreservation.utils.ValidationKey.ALREADY_EXISTS
 import io.github.spencerduberry.hotelreservation.utils.ValidationKey.EMPTY_INPUT
+import io.github.spencerduberry.hotelreservation.utils.ValidationKey.INVALID_CHOICE
 import io.github.spencerduberry.hotelreservation.utils.ValidationKey.NEGATIVE_INTEGER
 import io.github.spencerduberry.hotelreservation.utils.ValidationKey.TOO_LONG
 import io.github.spencerduberry.hotelreservation.utils.Validator.EmptyInput
@@ -58,13 +60,24 @@ sealed interface Validator : State {
                 Press any key to try again.
             """.trimIndent()
     }
+
+    class InvalidMenuChoice(
+        val previous : State, val context: Context
+    ) : State {
+        override fun process(input: String): State = previous
+
+        override fun ui(): String = """
+                Please choose a valid option.
+            """.trimIndent()
+    }
 }
 
 enum class ValidationKey {
     EMPTY_INPUT,
     TOO_LONG,
     ALREADY_EXISTS,
-    NEGATIVE_INTEGER;
+    NEGATIVE_INTEGER,
+    INVALID_CHOICE;
 }
 
 fun getValidationRule(key: ValidationKey, context: Context): (String) -> Boolean {
@@ -73,28 +86,24 @@ fun getValidationRule(key: ValidationKey, context: Context): (String) -> Boolean
         TOO_LONG -> { input -> input.length > 20 }
         ALREADY_EXISTS -> { input -> inputAlreadyExists(input, context) }
         NEGATIVE_INTEGER -> { input -> input.toInt() < 1 }
+        INVALID_CHOICE -> { input -> invalidChoice(input, context) }
     }
 
 }
-
-//// going to leave this for now because even though it looks like a more concise way of testing for
-//// validity I don't know how to integrate it into a 'returns error state with apt UI message model
-//fun isInputEmpty() : Predicate<String?> = { it.isNullOrBlank() }
-//fun isInputTooLong() : Predicate<String?> = { it.orEmpty().length > 20 }
-//
-//{
-//    val isInvalid = "some test".let { input ->
-//        isInputEmpty().or(isInputTooLong()).test(input)
-//    }
-//}
 
 fun inputAlreadyExists(input: String, context: Context): Boolean {
     return when (context) {
         is AddBedContext -> context.bedTypes.contains(input)
         is AddRoomContext -> context.roomTypes.any { it.name() == input }
-        else -> {
-            false
-        }
+        else -> false
+    }
+}
+
+fun invalidChoice(input: String, context: Context): Boolean {
+    return when (context) {
+        is AddRoomContext -> input.toInt() !in 1..context.bedTypes.size
+        is RemoveRoomContext -> input.toInt() !in 1..context.roomTypes.size
+        else -> false
     }
 }
 
@@ -104,6 +113,7 @@ fun getErrorState(key: ValidationKey, previousState: State, context: Context): S
         TOO_LONG -> InputTooLong(previousState, context)
         ALREADY_EXISTS -> InputAlreadyExists(previousState, context)
         NEGATIVE_INTEGER -> InputNegativeInteger(previousState)
+        INVALID_CHOICE -> Validator.InvalidMenuChoice(previousState, context)
     }
 }
 

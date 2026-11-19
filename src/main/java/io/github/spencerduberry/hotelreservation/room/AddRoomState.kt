@@ -3,6 +3,7 @@ package io.github.spencerduberry.hotelreservation.room
 import io.github.spencerduberry.hotelreservation.utils.State
 import io.github.spencerduberry.hotelreservation.utils.ValidationKey.ALREADY_EXISTS
 import io.github.spencerduberry.hotelreservation.utils.ValidationKey.EMPTY_INPUT
+import io.github.spencerduberry.hotelreservation.utils.ValidationKey.INVALID_CHOICE
 import io.github.spencerduberry.hotelreservation.utils.ValidationKey.NEGATIVE_INTEGER
 import io.github.spencerduberry.hotelreservation.utils.ValidationKey.TOO_LONG
 import io.github.spencerduberry.hotelreservation.utils.validate
@@ -56,48 +57,31 @@ sealed interface AddRoomState : State {
         override val previous: AddRoomState,
         override val context: AddRoomContext,
     ) : AddRoomState {
-        override fun process(input: String): AddRoomState {
-            val next = context.copy(previousInput = input)
-            // catches the exceptions
-            return runCatching {
-                // no need to make nullable because of catch block
-                input.toInt()
-                    // subtract one from input to match index
-                    .let { (it - 1) }
-                    // get the selected bed
-                    .let { context.bedTypes[it] }
-            }.map {
-                AddRateState(this, next.copy(bed = input))
-            }
-                .getOrElse {
-                    InvalidBed(this, next)
-                }
-        }
-    }
-
-    override fun ui(): String {
-        val bedsUi = context.bedTypes
-            .mapIndexed { i, bedType -> "    ${i + 1}. $bedType" }
-            .joinToString("\n")
-
-        return "Please select a bed type:\n$bedsUi"
-    }
-
-    class InvalidBed(
-        override val previous: AddRoomState,
-        override val context: AddRoomContext,
-    ) : AddRoomState {
         override fun process(input: String): State {
             val next = context.copy(previousInput = input)
-            return when (input) {
-                "" -> ChooseBedState(this, next)
-                else -> InvalidBed(this, next)
-            }
+
+            return validate(
+                listOf(
+                    INVALID_CHOICE
+                ),
+                next,
+                input,
+                this,
+                AddRateState(
+                    this,
+                    next.copy(bed = input)
+                )
+            )
         }
 
-        override fun ui(): String = """
-                Please choose a valid bed type. Press enter to continue.
-            """.trimIndent()
+
+        override fun ui(): String {
+            val bedsUi = context.bedTypes
+                .mapIndexed { i, bedType -> "    ${i + 1}. $bedType" }
+                .joinToString("\n")
+
+            return "Please select a bed type:\n$bedsUi"
+        }
     }
 
     class AddRateState(
@@ -129,9 +113,9 @@ sealed interface AddRoomState : State {
         }
 
         override fun ui(): String = """
-            Please enter the nightly rate for the room. 
-            Value entered must be a positive integer.
-        """.trimIndent()
+        Please enter the nightly rate for the room. 
+        Value entered must be a positive integer.
+    """.trimIndent()
     }
 
     class AddNewRoomState(

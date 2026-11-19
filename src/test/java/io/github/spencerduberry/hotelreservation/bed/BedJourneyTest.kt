@@ -1,6 +1,5 @@
 package io.github.spencerduberry.hotelreservation.bed
 
-import io.github.spencerduberry.hotelreservation.room.RoomJourney
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.channels.Channel

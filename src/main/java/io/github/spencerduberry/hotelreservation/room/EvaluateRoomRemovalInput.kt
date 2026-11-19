@@ -1,7 +1,7 @@
 //package io.github.spencerduberry.hotelreservation.room
 //
-//import io.github.spencerduberry.hotelreservation.room.RemoveRoomState.ErrorPhase
-//import io.github.spencerduberry.hotelreservation.room.RemoveRoomState.SuccessPhase
+//import io.github.spencerduberry.hotelreservation.room.AiImpl.RemoveRoomState.ErrorPhase
+//import io.github.spencerduberry.hotelreservation.room.AiImpl.RemoveRoomState.SuccessPhase
 //
 //
 //fun evaluateRoomRemovalInput(

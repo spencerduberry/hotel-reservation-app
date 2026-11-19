@@ -5,7 +5,7 @@ import java.util.List;
 
 public class InMemoryRoomTypeRepository implements RoomTypeRepository {
 
-    List<Room> roomTypes = new ArrayList<>();
+    private List<Room> roomTypes = new ArrayList<>();
 
     public InMemoryRoomTypeRepository() {
         seedData();

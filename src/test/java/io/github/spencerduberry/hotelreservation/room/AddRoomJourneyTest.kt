@@ -5,7 +5,6 @@ import io.github.spencerduberry.hotelreservation.bed.IO
 import io.github.spencerduberry.hotelreservation.room.AddRoomState.AddRateState
 import io.github.spencerduberry.hotelreservation.room.AddRoomState.ChooseBedState
 import io.github.spencerduberry.hotelreservation.room.AddRoomState.EnterNewRoomState
-import io.github.spencerduberry.hotelreservation.room.AddRoomState.InvalidBed
 import io.github.spencerduberry.hotelreservation.room.AddRoomState.None
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancelAndJoin
@@ -20,7 +19,7 @@ import org.junit.jupiter.api.Test
 import kotlin.time.Duration.Companion.seconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class RoomJourneyTest {
+class AddRoomJourneyTest {
     private lateinit var io: StubIo
 
     val stubRoomRepo = object : RoomTypeRepository {
@@ -91,7 +90,6 @@ class RoomJourneyTest {
         stubRoomRepo.getAll(),
         stubBedRepo.getAll(),
         "",
-        "Room"
     )
 
     private fun TestScope.startJourney(
@@ -104,7 +102,7 @@ class RoomJourneyTest {
             )
         )
     ) = backgroundScope.launch {
-        RoomJourney(stubRoomRepo, stubBedRepo, io, state).process()
+        AddRoomJourney(stubRoomRepo, stubBedRepo, io, state).process()
     }
 
     private fun TestScope.enterInputs(vararg inputs: String) {
@@ -225,7 +223,7 @@ class RoomJourneyTest {
 
             assertEquals(
                 """
-                Please choose a valid bed type. Press enter to continue.
+                Please choose a valid option.
             """.trimIndent(), io.ui()
             )
         }
@@ -256,55 +254,14 @@ class RoomJourneyTest {
         }
 
     @Test
-    fun `given state is invalid key, when user input not new line, then repeat error message`() =
-        runTest {
-            stubBedRepo.addBed("Deluxe")
-
-            val job = startJourney(
-                generateRoomState(
-                    ::InvalidBed, AddRoomContext(
-                        stubRoomRepo.getAll(),
-                        stubBedRepo.getAll(),
-                        ""
-                    )
-                )
-            )
-            enterInputs("fluff")
-            job.cancelAndJoin()
-
-            assertEquals(
-                """
-                Please choose a valid bed type. Press enter to continue.
-            """.trimIndent(), io.ui()
-            )
-        }
-
-    @Test
-    fun `given state is invalid key, when user inputs new line, then revert to prior state`() =
-        runTest {
-            stubBedRepo.addBed("Deluxe")
-
-            val job = startJourney(
-                generateRoomState(
-                    ::InvalidBed, AddRoomContext(
-                        stubRoomRepo.getAll(),
-                        stubBedRepo.getAll(),
-                        ""
-                    )
-                )
-            )
-            enterInputs("")
-            job.cancelAndJoin()
-
-            assertEquals("Please select a bed type:\n    1. Deluxe", io.ui())
-        }
-
-    @Test
     fun `given state is add rate, when user inputs negative integer, then negative integer error`() =
         runTest {
             val job = startJourney(
-                AddRateState(None, defaultContext.copy(name = "Deluxe",
-                    bed = "Double")
+                AddRateState(
+                    None, defaultContext.copy(
+                        name = "Deluxe",
+                        bed = "Double"
+                    )
                 )
             )
             enterInputs("-1")

@@ -1,7 +1,7 @@
 //package io.github.spencerduberry.hotelreservation.room
 //
-//import io.github.spencerduberry.hotelreservation.room.RemoveRoomState.InputNamePhase
-//import io.github.spencerduberry.hotelreservation.room.RemoveRoomState.SuccessPhase
+//import io.github.spencerduberry.hotelreservation.room.AiImpl.RemoveRoomState.InputNamePhase
+//import io.github.spencerduberry.hotelreservation.room.AiImpl.RemoveRoomState.SuccessPhase
 //import io.github.spencerduberry.hotelreservation.utils.CustomInput
 //import kotlinx.coroutines.flow.flow
 //import kotlinx.coroutines.flow.scan

@@ -27,4 +27,9 @@ public abstract class Room {
         public abstract RoomBuilder rate(@Nullable Integer value);
         public abstract Room build();
     }
+
+    @Override
+    public String toString() {
+        return this.name();
+    }
 }

@@ -1,6 +1,6 @@
-package io.github.spencerduberry.hotelreservation.room
+package io.github.spencerduberry.hotelreservation.room.AiImpl
 
-import io.github.spencerduberry.hotelreservation.room.RemoveRoomState.InputNamePhase
+import io.github.spencerduberry.hotelreservation.room.RoomTypeRepository
 import java.util.Locale
 import java.util.ResourceBundle
 
@@ -9,7 +9,7 @@ val bundle = ResourceBundle.getBundle("messages", Locale.getDefault())
 fun renderRemoveRoomUi(state: RemoveRoomState, repo : RoomTypeRepository) {
     println("=== Remove room ===")
     when (state) {
-        is InputNamePhase -> {
+        is RemoveRoomState.InputNamePhase -> {
             println("Please select a room to remove")
             println(repo.all)
 

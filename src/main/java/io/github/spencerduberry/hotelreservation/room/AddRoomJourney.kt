@@ -7,7 +7,7 @@ import io.github.spencerduberry.hotelreservation.room.AddRoomState.EnterNewRoomS
 import io.github.spencerduberry.hotelreservation.room.AddRoomState.None
 import io.github.spencerduberry.hotelreservation.utils.State
 
-class RoomJourney(
+class AddRoomJourney(
     private val roomRepo: RoomTypeRepository,
     private val bedRepo: BedTypeRepository,
     private val io: IO,
