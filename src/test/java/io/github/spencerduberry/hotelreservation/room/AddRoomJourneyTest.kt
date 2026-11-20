@@ -2,10 +2,6 @@ package io.github.spencerduberry.hotelreservation.room
 
 import io.github.spencerduberry.hotelreservation.bed.BedTypeRepository
 import io.github.spencerduberry.hotelreservation.bed.IO
-import io.github.spencerduberry.hotelreservation.room.AddRoomState.AddRateState
-import io.github.spencerduberry.hotelreservation.room.AddRoomState.ChooseBedState
-import io.github.spencerduberry.hotelreservation.room.AddRoomState.EnterNewRoomState
-import io.github.spencerduberry.hotelreservation.room.AddRoomState.None
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.channels.Channel
@@ -92,17 +88,8 @@ class AddRoomJourneyTest {
         "",
     )
 
-    private fun TestScope.startJourney(
-        state: AddRoomState = EnterNewRoomState(
-            None,
-            AddRoomContext(
-                stubRoomRepo.getAll(),
-                stubBedRepo.getAll(),
-                ""
-            )
-        )
-    ) = backgroundScope.launch {
-        AddRoomJourney(stubRoomRepo, stubBedRepo, io, state).process()
+    private fun TestScope.startJourney() = backgroundScope.launch {
+        AddRoomJourney(stubRoomRepo, stubBedRepo, io).process()
     }
 
     private fun TestScope.enterInputs(vararg inputs: String) {
@@ -110,14 +97,6 @@ class AddRoomJourneyTest {
             io.enterUserInput(input)
             advanceTimeBy(1.seconds)
         }
-    }
-
-    private fun generateRoomState(
-        stateFactory: (previous: AddRoomState, context: AddRoomContext) -> AddRoomState = ::EnterNewRoomState,
-        context: AddRoomContext,
-        previousState: AddRoomState = None
-    ): AddRoomState {
-        return stateFactory(previousState, context)
     }
 
     @Test
@@ -215,10 +194,8 @@ class AddRoomJourneyTest {
         runTest {
             stubBedRepo.addBed("Deluxe")
 
-            val job = startJourney(
-                generateRoomState(::ChooseBedState, defaultContext)
-            )
-            enterInputs("2")
+            val job = startJourney()
+            enterInputs("Superior", "2")
             job.cancelAndJoin()
 
             assertEquals(
@@ -233,38 +210,25 @@ class AddRoomJourneyTest {
         runTest {
             stubBedRepo.addBed("Deluxe")
 
-            val job = startJourney(
-                generateRoomState(
-                    ::ChooseBedState, AddRoomContext(
-                        stubRoomRepo.getAll(),
-                        stubBedRepo.getAll(),
-                        ""
-                    )
-                )
-            )
-            enterInputs("1")
+            val job = startJourney()
+            enterInputs("Superior", "1")
             job.cancelAndJoin()
 
             assertEquals(
                 """
-            Please enter the nightly rate for the room. 
-            Value entered must be a positive integer.
-        """.trimIndent(), io.ui()
+        Please enter the nightly rate for the room. 
+        Value entered must be a positive integer.
+    """.trimIndent(), io.ui()
             )
         }
 
     @Test
     fun `given state is add rate, when user inputs negative integer, then negative integer error`() =
         runTest {
-            val job = startJourney(
-                AddRateState(
-                    None, defaultContext.copy(
-                        name = "Deluxe",
-                        bed = "Double"
-                    )
-                )
-            )
-            enterInputs("-1")
+            stubBedRepo.addBed("Deluxe")
+
+            val job = startJourney()
+            enterInputs("Deluxe", "1", "-1")
             job.cancelAndJoin()
 
             assertEquals(
@@ -278,14 +242,10 @@ class AddRoomJourneyTest {
     @Test
     fun `given state is add rate, when user inputs positive integer, then add new room`() =
         runTest {
-            val job = startJourney(
-                AddRateState(
-                    None,
-                    defaultContext.copy(name = "Deluxe",
-                        bed = "Double")
-                )
-            )
-            enterInputs("10")
+            stubBedRepo.addBed("Deluxe")
+
+            val job = startJourney()
+            enterInputs("Deluxe", "1", "10")
             job.cancelAndJoin()
 
             assertEquals(1, stubRoomRepo.getAll().size)
